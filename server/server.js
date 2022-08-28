@@ -1,41 +1,34 @@
 const express = require('express');
-const app = express();
-const PORT = 5000;
-var foo = process.env.MONGO_URI
-// Middlware allowing express to parse JSON provided in the request body
-app.use( express.json() );
+const cors = require('cors');
+const dotenv = require('dotenv').config();
+const connectDB = require('./config/db');
 
-app.listen(
+connectDB();
+
+const api = express();
+
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.NODE_MONGO_URI
+
+api.use( cors() );
+api.use( express.json() );
+api.use( express.urlencoded({ extended: false }) );
+
+api.listen(
   PORT,
   (props) => console.log(`App alive on http://localhost:${PORT}`), // Callback
 );
 
-app.get('/', (req, res) => {
-  // res.status(200).send({
-  //   message: `SUCCESS! also, Hello World :)`,
-  // });
+api.get('/', (req, res) => {
   res.status(200).send(`
     <h1>Express RESTAPI Root...</h1>
   `);
 });
 
-app.get(`/home`, (req, res) => {
-  
-  res.status(200).send({
+api.get(`/home`, (req, res) => {
+  res.status(200).json({
     ping: `pong`,
   });
 });
 
-app.post(`/home/:id`, (req, res) => {
-  const { id } = req.params;
-  const { ping } = req.body;
-
-  if (!ping) res.status(418).send({
-    message: 'ERROR [status:418] - need ping',
-  })
-
-  res.status(200).send({
-    message: `SUCCESS [status:200] Sent ping: ${ping}`,
-    id: `${id}`
-  })
-});
+api.use('/api/mongoTest', require('./routes/mongoTestRoutes'))
