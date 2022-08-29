@@ -48,4 +48,16 @@
 		],
 		"description": "Stringify a JS Object"
 	},
+	"Async Handled Controller": {
+		"prefix": "asyncController",
+		"body": [
+			"// @desc   Get $1 data",
+			"// @route  $2 /api/$3",
+			"// @access Private",
+			"const $4 = asyncHandler(async (req, res) => {",
+			"  res.status(200).json(generateJSONResponse(\"SUCCESS\"))",
+			"});"
+		],
+		"description": "Async handled get controller"
+	},
 }
