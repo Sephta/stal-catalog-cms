@@ -32,6 +32,7 @@ passport.use(new GitHubStrategy({
     callbackURL: SERVER_CALLBACK,
   },
   (accessToken, refreshToken, profile, done) => {
+    console.debug(`[DEBUG] - accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
     process.nextTick(() => {
       return done(null, profile);
     });
@@ -53,19 +54,20 @@ api.listen(
 
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/home')
+  res.redirect('/api')
 }
 
 api.get('/', ensureAuthenticated, (req, res) => {
   res.status(200).send(`
-    <h1>Express RESTAPI Root...</h1>
+    <h1>API Home</h1>
   `);
 });
 
-api.get(`/home`, (req, res) => {
-  res.status(200).json({
-    ping: `pong`,
-  });
+api.get('/api', (req, res) => {
+  res.status(200).send(`
+    <h1>API Root</h1>
+    <p>${JSON.stringify(req.body)}</p>
+  `);
 });
 
 api.use('/api/mongoTest', require('./routes/mongoTestRoutes'));
