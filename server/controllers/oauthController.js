@@ -11,7 +11,30 @@ const CLIENT_URL = process.env.NODE_CLIENT_URL
 // @route  GET /api/oauth/github
 // @access Private
 const getOAuth = asyncHandler(async (req, res) => {
-  res.status(200).json(generateJSONResponse("SUCCESS"))
+
+  let user = User.findByIdAndUpdate(
+    req.id, 
+    {
+      "$set": {
+        username: req.username,
+        email: req.email || "",
+      }
+    },
+    {
+      upsert: true
+    }, 
+    (err, doc) => {
+      if (err) {
+        console.error(`[ERROR] - ${err}`);
+      }
+    }
+  )
+
+  console.debug(`[DEBUG] - /github -> ${JSON.stringify(user)}`);
+
+  res.status(200).json(generateJSONResponse("SUCCESS", {
+    user
+  }))
 });
 
 // @desc   Github login callback
@@ -19,15 +42,15 @@ const getOAuth = asyncHandler(async (req, res) => {
 // @access Private
 const getGithubCallback = asyncHandler(async (req, res) => {
   // console.debug(`[DEBUG] - ${JSON.stringify(req.user)}`);
-  res.redirect(CLIENT_URL + '/app/');
   // res.status(200).json(generateJSONResponse("SUCCESS", req.user));
+  res.redirect(CLIENT_URL);
 });
 
 // @desc   Post User data
 // @route  POST /api/user
 // @access Private
 const getSignin = asyncHandler(async (req, res) => {
-  res.redirect(CLIENT_URL + "/app/Login");
+  res.redirect(400, CLIENT_URL + "/app/Login");
 });
 
 // @desc   Post User data

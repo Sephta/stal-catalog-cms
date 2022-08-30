@@ -12,6 +12,7 @@ const Home = (props) => {
   return (
     <div>
       <h1>HOME</h1>
+      <a href="/app/login">Login</a>
     </div>
   );
 };

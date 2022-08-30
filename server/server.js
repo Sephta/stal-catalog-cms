@@ -1,10 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
+const mongoose = require('mongoose');
 const connectDB = require('./config/db');
-const session = require('express-session');
 const passport = require('passport');
+const session = require('express-session');
 const GitHubStrategy = require('passport-github2').Strategy;
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger_output.json');
+const { generateJSONResponse } = require('./helpers/helpers');
+const User = require('./models/userModel');
 
 connectDB();
 
@@ -32,7 +37,25 @@ passport.use(new GitHubStrategy({
     callbackURL: SERVER_CALLBACK,
   },
   (accessToken, refreshToken, profile, done) => {
-    console.debug(`[DEBUG] - accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
+    // console.debug(`[DEBUG] - accessToken: ${accessToken} \n\t\tprofile -> ${JSON.stringify(profile)}`);
+
+    let user = User.findByIdAndUpdate(
+      mongoose.mongo.ObjectId(parseInt(profile.id)), 
+      {
+        "$set": {
+          username: profile.username,
+          email: profile.email || "",
+        }
+      },
+      {
+        upsert: true
+      }, 
+      (err, doc) => {
+        if (err) {
+          console.error(`[ERROR] - error occured tryin to findAndUpdate User object`);
+        }
+      }
+    );
     process.nextTick(() => {
       return done(null, profile);
     });
@@ -70,6 +93,15 @@ api.get('/api', (req, res) => {
   `);
 });
 
+api.get('/api/me', (req, res) => {
+  // let me = User.findById(req.cookie)
+
+  res.status(200).send(generateJSONResponse("SUCCESS", {}));
+})
+
 api.use('/api/mongoTest', require('./routes/mongoTestRoutes'));
 api.use('/api/user', require('./routes/userRoutes'));
 api.use('/api/oauth', require('./routes/oauthRoutes'));
+
+api.use('/api/doc', swaggerUi.serve);
+api.get('/api/doc', swaggerUi.setup(swaggerDocument));

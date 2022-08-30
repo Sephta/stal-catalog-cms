@@ -10,7 +10,7 @@ const {
 } = require("../controllers/oauthController");
 
 router.get('/github-callback', passport.authenticate('github', { failureRedirect: '/signin' }), getGithubCallback);
-router.get('/github', passport.authenticate('github', { scope: [ 'user:email' ] }), getOAuth);
+router.get('/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
 router.get('/signin', getSignin);
 router.post('/signout', postSignout);
 
