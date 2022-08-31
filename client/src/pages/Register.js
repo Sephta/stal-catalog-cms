@@ -1,8 +1,10 @@
 import React, { useState }  from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LazyFetch from '../components/common/requests/LazyFetch';
 
 const Register = (props) => {
+  const navigate = useNavigate();
+
   const [registerState, setRegisterState] = useState(
     {
       text: "",
@@ -38,7 +40,7 @@ const Register = (props) => {
       },
       onSuccess: (data) => {
         console.debug(`[DEBUG] - `, data);
-        return (<Navigate to={'/'} />)
+        navigate('/login');
       },
       onFailure: (err) => {
         console.error(`[ERROR] - `, err);

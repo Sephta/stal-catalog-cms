@@ -1,11 +1,13 @@
 import React, { useState, useContext, useEffect }  from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LazyFetch from '../components/common/requests/LazyFetch';
 import { UserContext, UserDispatchContext } from '../components/common/UserProvider';
 
 const Login = (props) => {
   const user = useContext(UserContext);
   const setUser = useContext(UserDispatchContext);
+
+  const navigate = useNavigate();
 
   const [loginState, setLoginState] = useState(
     {
@@ -39,7 +41,9 @@ const Login = (props) => {
       },
       onSuccess: (data) => {
         console.debug(`[DEBUG] - `, data);
-        setUser(data);
+        setUser(data.result);
+        localStorage.setItem("user", JSON.stringify(data.result));
+        navigate('/');
       },
       onFailure: (err) => {
         console.error(`[ERROR] - `, err);
