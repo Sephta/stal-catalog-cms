@@ -1,4 +1,5 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
+import LazyFetch from "./requests/LazyFetch";
 
 const UserContext = createContext(undefined);
 const UserDispatchContext = createContext(undefined);
@@ -11,6 +12,15 @@ const UserDispatchContext = createContext(undefined);
  */
 const UserProvider = ({ children }) => {
   const [userDetails, setUserDetails] = useState(null);
+
+  // useEffect(() => {
+  //   LazyFetch({
+  //     type: "get",
+  //     endpoint: "/api/user/me",
+  //     onSuccess: (data) => {console.debug(`[DEBUG] - ${JSON.stringify(data)}`);},
+  //     onFailure: (err) => {console.error(`[ERROR] - ${err}`);},
+  //   })
+  // }, []);
 
   return (
     <UserContext.Provider value={userDetails}>
