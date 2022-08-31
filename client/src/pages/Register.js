@@ -5,32 +5,17 @@ import LazyFetch from '../components/common/requests/LazyFetch';
 const Register = (props) => {
   const [registerState, setRegisterState] = useState(
     {
-      username: "",
+      text: "",
       email: "",
       password: "",
     }
   );
 
-  const onUpdateUsernameField = (event) => {
-    setRegisterState({
-      username: event.target.value,
-      email: registerState.email,
-      password: registerState.password,
-    });
-  }
-  const onUpdateEmailField = (event) => {
-    setRegisterState({
-      username: registerState.username,
-      email: event.target.value,
-      password: registerState.password,
-    });
-  }
-  const onUpdatePasswordField = (event) => {
-    setRegisterState({
-      username: registerState.username,
-      email: registerState.email,
-      password: event.target.value,
-    });
+  const handleFormUpdate = (event) => {
+    setRegisterState((prevState) => ({
+      ...prevState,
+      [event.target.type]: event.target.value,
+    }));
   }
 
   const submitRegister = (event) => {
@@ -66,16 +51,32 @@ const Register = (props) => {
       <h1>REGISTER</h1>
       <form onSubmit={submitRegister}>
         <label>Username: 
-          <input type="text" value={registerState.username} onChange={onUpdateUsernameField} />
+          <input 
+            type="text" 
+            value={registerState.username} 
+            onChange={handleFormUpdate} 
+            placeholder={"Enter desired username..."}
+          />
         </label>
         <label>Email: 
-          <input type="text" value={registerState.email} onChange={onUpdateEmailField} />
+          <input 
+            type="email" 
+            value={registerState.email} 
+            onChange={handleFormUpdate} 
+            placeholder={"Enter desired email..."}
+          />
         </label>
         <label> Password: 
-          <input type="text" value={registerState.password} onChange={onUpdatePasswordField} />
+          <input 
+            type="password" 
+            value={registerState.password} 
+            onChange={handleFormUpdate} 
+            placeholder={"Enter password..."}
+          />
         </label>
         <input type="submit" value={"Submit"}/>
       </form>
+      <a href="/app/">Return</a>
     </div>
   );
 };

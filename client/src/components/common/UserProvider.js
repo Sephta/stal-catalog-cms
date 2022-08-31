@@ -15,11 +15,20 @@ const UserProvider = ({ children }) => {
 
   // useEffect(() => {
   //   LazyFetch({
-  //     type: "get",
-  //     endpoint: "/api/user/me",
-  //     onSuccess: (data) => {console.debug(`[DEBUG] - ${JSON.stringify(data)}`);},
-  //     onFailure: (err) => {console.error(`[ERROR] - ${err}`);},
-  //   })
+  //     type: "post",
+  //     endpoint: "/api/user/login",
+  //     data: {
+  //       email: "Seth.tal255@gmail.com",
+  //       password: "admin",
+  //     },
+  //     onSuccess: (data) => {
+  //       console.debug(`[DEBUG] - `, data);
+  //       setUserDetails(data);
+  //     },
+  //     onFailure: (err) => {
+  //       console.error(`[ERROR] - `, err);
+  //     },
+  //   });
   // }, []);
 
   return (

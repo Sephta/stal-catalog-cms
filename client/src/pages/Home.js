@@ -6,18 +6,16 @@ const Home = (props) => {
   const user = useContext(UserContext);
   const setUser = useContext(UserDispatchContext);
 
-  // useEffect(() => {
-  // }, []);
-
-  // if (!user) {
-  //   return (<Navigate to="/Login"/>);
-  // }
+  useEffect(() => {
+    console.debug(`[DEBUG] - <Home>: `, user);
+  }, [user]);
 
   return (
     <div>
       <h1>HOME</h1>
       {user == null ? (<a href="/app/login">Login</a>) : (<a href={`${process.env.REACT_APP_SERVER_URL}/api/oauth/signout`}>Logout</a>)}
       {user == null ? (<a href="/app/register">Register</a>) : (<></>)}
+      <p>{JSON.stringify(user)}</p>
       
       
     </div>
