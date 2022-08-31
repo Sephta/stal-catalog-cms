@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 import LazyFetch from "./requests/LazyFetch";
 
 const UserContext = createContext(undefined);
@@ -13,24 +14,6 @@ const UserDispatchContext = createContext(undefined);
 const UserProvider = ({ children }) => {
   const [userDetails, setUserDetails] = useState(null);
 
-  // useEffect(() => {
-  //   LazyFetch({
-  //     type: "post",
-  //     endpoint: "/api/user/login",
-  //     data: {
-  //       email: "Seth.tal255@gmail.com",
-  //       password: "admin",
-  //     },
-  //     onSuccess: (data) => {
-  //       console.debug(`[DEBUG] - `, data);
-  //       setUserDetails(data);
-  //     },
-  //     onFailure: (err) => {
-  //       console.error(`[ERROR] - `, err);
-  //     },
-  //   });
-  // }, []);
-
   return (
     <UserContext.Provider value={userDetails}>
       <UserDispatchContext.Provider value={setUserDetails}>
@@ -38,6 +21,10 @@ const UserProvider = ({ children }) => {
       </UserDispatchContext.Provider>
     </UserContext.Provider>
   );
+}
+
+UserProvider.propTypes = {
+  children: PropTypes.node,
 }
 
 export { UserProvider, UserContext, UserDispatchContext };
