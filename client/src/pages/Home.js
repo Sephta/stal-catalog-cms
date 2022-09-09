@@ -21,8 +21,8 @@ const Home = (props) => {
   return (
     <div>
       <h1>HOME</h1>
-      {user == null ? (<a href="/app/login">Login</a>) : (<button onClick={handleLogout}>Logout</button>)}
-      {user == null ? (<a href="/app/register">Register</a>) : (<></>)}
+      {user == null ? (<a href={`/login`}>Login</a>) : (<button onClick={handleLogout}>Logout</button>)}
+      {user == null ? (<a href={`/register`}>Register</a>) : (<></>)}
       <p>{JSON.stringify(user)}</p>
       
       

@@ -78,7 +78,7 @@ const Register = (props) => {
         </label>
         <input type="submit" value={"Submit"}/>
       </form>
-      <a href="/app/">Return</a>
+      <a href={`/`}>Return</a>
     </div>
   );
 };

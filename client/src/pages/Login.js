@@ -71,7 +71,7 @@ const Login = (props) => {
         </label>
         <input type="submit" />
       </form>
-      <a href="/app/">Return</a>
+      <a href={`/`}>Return</a>
     </div>
   );
 };
