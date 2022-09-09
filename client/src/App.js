@@ -8,7 +8,7 @@ import { UserProvider } from "./components/common/UserProvider";
 const App = (props) => {
   return (
     <>
-    <Router basename="/app">
+    <Router>
         <UserProvider>
           <Routes>
             <Route path='/' element={<Home />} />
