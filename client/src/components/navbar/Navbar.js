@@ -13,10 +13,10 @@ import UserNavbarManager from './UserNavbarManager';
 const Navbar = (props) => {
   const user = useContext(UserContext);
 
-  const [collections, setCollections] = useState([]);
+  const [collections, setCollections] = useState(null);
  
   useEffect(() => {
-    if (user && collections.length === 0) {
+    if (user && !collections) {
       LazyFetch({
         type: 'get',
         endpoint: '/api/collection',
@@ -53,7 +53,7 @@ const Navbar = (props) => {
         <StyledNavbar>
           <Title>Website Title</Title>
           <CollectionWrapper>
-            {collections.length >= 0 ? (generateNavItems(collections)) : (<></>)}
+            {collections ? (generateNavItems(collections)) : (<></>)}
           </CollectionWrapper>
           <UserNavbarManager />
         </StyledNavbar>
