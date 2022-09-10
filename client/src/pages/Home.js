@@ -1,4 +1,5 @@
 import React, {useContext, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import { UserContext, UserDispatchContext } from '../components/common/UserProvider';
 
 const Home = (props) => {
@@ -7,7 +8,7 @@ const Home = (props) => {
 
   const handleLogout = (event) => {
     setUser(null);
-    localStorage.clear();
+    localStorage.removeItem("user");
   }
 
   useEffect(() => {
@@ -21,8 +22,8 @@ const Home = (props) => {
   return (
     <div>
       <h1>HOME</h1>
-      {user == null ? (<a href={`/login`}>Login</a>) : (<button onClick={handleLogout}>Logout</button>)}
-      {user == null ? (<a href={`/register`}>Register</a>) : (<></>)}
+      {user == null ? (<Link to={`/login`}>Login</Link>) : (<button onClick={handleLogout}>Logout</button>)}
+      {user == null ? (<Link to={`/register`}>Register</Link>) : (<></>)}
       <pre>{JSON.stringify(user, null, 2)}</pre>
       
       
