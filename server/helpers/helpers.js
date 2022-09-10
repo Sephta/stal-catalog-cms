@@ -13,7 +13,7 @@ const generateJSONResponse = (message, result = null) => {
 }
 
 const debugEndpoint = (req, res, next) => {
-  console.debug(`[DEBUG] <ENDPOINT: \'${req.path}\'> | <TYPE: \'${req.method}\'>`);
+  console.debug(`[DEBUG] <ENDPOINT: \'${req.originalUrl}\'> | <TYPE: \'${req.method}\'>`);
   next();
 }
 

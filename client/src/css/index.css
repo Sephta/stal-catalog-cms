@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 } */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+:root {
+  --off-black: #121212;
+  --off-white: #ededed;
+  --base: #F8F9FA;
+  --highlight-01: #E9ECEF;
+  --highlight-02: #DEE2E6;
+  --highlight-03: #CED4DA;
+  --highlight-04: #ADB5BD;
+  --contrast-01: #6C757D;
+  --contrast-02: #495057;
+  --contrast-03: #343A40;
+  --contrast-04: #212529;
+
+  font-family:"Open Sans", sans-serif, serif;
+
+}
+
+* {
+  transition: ease-in-out 150ms;
+}
+
+body {
+  background-color: var(--base);
+}

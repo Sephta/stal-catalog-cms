@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate } = require('../middleware/authMiddleware');
+const { debugEndpoint } = require('../helpers/helpers');
 
 const {
   getUser,
@@ -11,13 +12,13 @@ const {
   getMe,
 } = require('../controllers/userController');
 
-router.get('/', getUser);
-router.post('/register', postUser);
-router.put('/:id', putUser);
-router.delete('/:id', deleteUser);
+router.get('/', debugEndpoint, getUser);
+router.post('/register', debugEndpoint, postUser);
+router.put('/:id', debugEndpoint, putUser);
+router.delete('/:id', debugEndpoint, deleteUser);
 
-router.post('/login', postLogin);
+router.post('/login', debugEndpoint, postLogin);
 // router.get('/me', getMe);
-router.get('/me', authenticate, getMe);
+router.get('/me', debugEndpoint, authenticate, getMe);
 
 module.exports = router;

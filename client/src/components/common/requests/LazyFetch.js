@@ -16,6 +16,7 @@ const LazyFetch = ({
   url = process.env.REACT_APP_SERVER_URL,
   endpoint,
   data = null,
+  headers,
   onSuccess,
   onFailure,
 }) => {
@@ -24,6 +25,7 @@ const LazyFetch = ({
     method: type,
     url: full_url,
     data: data,
+    headers,
   })
     .then((response) => {
       // console.log(response.data);

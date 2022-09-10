@@ -6,6 +6,7 @@ const { generateJSONResponse } = require('../helpers/helpers');
 const aRouter = require('./testRouteA');
 const bRouter = require('./testRouteB');
 const userRouter = require('./userRoute');
+const collectionRouter = require('./collectionRoute');
 
 const docsRouter = require('./docs');
 
@@ -21,6 +22,10 @@ const routes = [
   {
     path: '/user',
     route: userRouter,
+  },
+  {
+    path: '/collection',
+    route: collectionRouter,
   }
 ];
 
