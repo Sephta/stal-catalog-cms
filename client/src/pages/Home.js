@@ -24,10 +24,7 @@ const Home = (props) => {
   return (
     <>
       <Navbar />
-      <div>
-        <h1>HOME</h1>
-        <pre>{JSON.stringify(user, null, 2)}</pre>
-      </div>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
     </>
   );
 };

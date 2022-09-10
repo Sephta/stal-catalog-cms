@@ -1,6 +1,7 @@
 import React, { useState }  from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LazyFetch from '../components/common/requests/LazyFetch';
+import Navbar from '../components/navbar/Navbar';
 
 const Register = (props) => {
   const navigate = useNavigate();
@@ -49,8 +50,8 @@ const Register = (props) => {
   }
 
   return (
-    <div>
-      <h1>REGISTER</h1>
+    <>
+      <Navbar />
       <form onSubmit={submitRegister}>
         <label>Username: 
           <input 
@@ -78,8 +79,8 @@ const Register = (props) => {
         </label>
         <input type="submit" value={"Submit"}/>
       </form>
-      <a href={`/`}>Return</a>
-    </div>
+      <Link to={`/`}>Return</Link>
+    </>
   );
 };
 

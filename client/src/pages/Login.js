@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect }  from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LazyFetch from '../components/common/requests/LazyFetch';
 import { UserContext, UserDispatchContext } from '../components/common/UserProvider';
+import Navbar from '../components/navbar/Navbar';
 
 const Login = (props) => {
   const user = useContext(UserContext);
@@ -52,8 +53,8 @@ const Login = (props) => {
   }
 
   return (
-    <div>
-      <h1>LOGIN</h1>
+    <>
+      <Navbar />
       <form onSubmit={submitLogin}>
         <label>Email: 
           <input 
@@ -71,8 +72,8 @@ const Login = (props) => {
         </label>
         <input type="submit" />
       </form>
-      <a href={`/`}>Return</a>
-    </div>
+      <Link to={`/`}>Return</Link>
+    </>
   );
 };
 
