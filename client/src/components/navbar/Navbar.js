@@ -30,7 +30,7 @@ const Navbar = (props) => {
         <StyledNavbar>
         <Title><Link to={`/`}>Website Title</Link></Title>
           <CollectionWrapper>
-            {collections ? (generateNavItems(collections)) : (<ThreeDots fill={`#121212`} />)}
+            {collections ? (generateNavItems(collections)) : (<ThreeDots fill={`var\(--highlight-04\)`} />)}
           </CollectionWrapper>
           <UserNavbarManager setCollections={setCollections} />
         </StyledNavbar>

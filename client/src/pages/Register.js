@@ -1,7 +1,9 @@
 import React, { useState }  from 'react';
+import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import LazyFetch from '../components/common/requests/LazyFetch';
-import Navbar from '../components/navbar/Navbar';
+import { Footer } from '../components/footer';
+import { Navbar } from '../components/navbar';
 
 const Register = (props) => {
   const navigate = useNavigate();
@@ -52,36 +54,44 @@ const Register = (props) => {
   return (
     <>
       <Navbar />
-      <form onSubmit={submitRegister}>
-        <label>Username: 
-          <input 
-            type="text" 
-            value={registerState.username} 
-            onChange={handleFormUpdate} 
-            placeholder={"Enter desired username..."}
-          />
-        </label>
-        <label>Email: 
-          <input 
-            type="email" 
-            value={registerState.email} 
-            onChange={handleFormUpdate} 
-            placeholder={"Enter desired email..."}
-          />
-        </label>
-        <label> Password: 
-          <input 
-            type="password" 
-            value={registerState.password} 
-            onChange={handleFormUpdate} 
-            placeholder={"Enter password..."}
-          />
-        </label>
-        <input type="submit" value={"Submit"}/>
-      </form>
-      <Link to={`/`}>Return</Link>
+      <Wrapper>
+        <form onSubmit={submitRegister}>
+          <label>Username: 
+            <input 
+              type="text" 
+              value={registerState.username} 
+              onChange={handleFormUpdate} 
+              placeholder={"Enter desired username..."}
+            />
+          </label>
+          <label>Email: 
+            <input 
+              type="email" 
+              value={registerState.email} 
+              onChange={handleFormUpdate} 
+              placeholder={"Enter desired email..."}
+            />
+          </label>
+          <label> Password: 
+            <input 
+              type="password" 
+              value={registerState.password} 
+              onChange={handleFormUpdate} 
+              placeholder={"Enter password..."}
+            />
+          </label>
+          <input type="submit" value={"Submit"}/>
+        </form>
+      </Wrapper>
+      <Footer />
     </>
   );
 };
 
 export default Register;
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 1em;
+`;

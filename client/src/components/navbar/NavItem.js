@@ -7,11 +7,9 @@ import { Container } from '../styles/common/Container.styled';
 const NavItem = ({data, ...props}) => {
   return (
     <>
-      <Container>
-        <Wrapper id="nav-item-wrapper" debug>
-          <Link to={`/collection/${data.name}`}>{data.name}</Link>
-        </Wrapper>
-      </Container>
+      <Wrapper debug>
+        <Link to={`/collection/${data.name}`}>{data.name}</Link>
+      </Wrapper>
     </>
   );
 };

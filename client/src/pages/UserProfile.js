@@ -2,6 +2,7 @@ import React from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../components/common/UserProvider';
 import { Link } from 'react-router-dom';
+import { Footer } from '../components/footer';
 
 const UserProfile = (props) => {
   const user = useContext(UserContext);
@@ -9,7 +10,7 @@ const UserProfile = (props) => {
   return user ? (
     <>
       <h1>{user.username}</h1>
-      <Link to={`/`}>Return</Link>
+      <Footer />
     </>
   ) : <></>;
 };
