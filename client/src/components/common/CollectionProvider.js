@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import LazyFetch from "./requests/LazyFetch";
+import { useInterval } from "../../hooks";
 
 const CollectionContext = createContext(undefined);
 const CollectionDispatchContext = createContext(undefined);
@@ -14,25 +15,26 @@ const CollectionDispatchContext = createContext(undefined);
 const CollectionProvider = ({ children }) => {
   const [CollectionDetails, setCollectionDetails] = useState(null);
 
-  useEffect(() => {
+  useInterval(() => {
     if (!CollectionDetails) {
+      console.debug(`[DEBUG] - wowwie, no collections`);
       LazyFetch({
         type: 'get',
         endpoint: '/api/collection',
-        // headers: { Authorization: `Bearer ${user.token}` },
         onSuccess: (data) => {
           // console.debug(`[DEBUG] - ${data.message}`);
           // data.result.forEach(item => {
           //   console.debug(`[DEBUG] - ${JSON.stringify(item)}`);
           // });
           setCollectionDetails(data.result);
+          setTryAgain(false);
         },
         onFailure: (err) => {
           console.error(`[ERROR] - ${err?.message}`);
         }
       })
     }
-  });
+  }, 1000);
 
   return (
     <CollectionContext.Provider value={CollectionDetails}>

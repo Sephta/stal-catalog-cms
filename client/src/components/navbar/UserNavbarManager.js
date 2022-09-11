@@ -26,8 +26,10 @@ const UserNavbarManager = ({setCollections, ...props}) => {
   const generateUserArea = (user) => {
     let result = user ? (
       <UserArea>
-        <UserIcon />
-        {user ? (<p>{user.username}</p>) : (<p>{`Name`}</p>)}
+        <Link to={'/userprofile'}>
+          <UserIcon />
+          {user ? (<p>{user.username}</p>) : (<p>{`Name`}</p>)}
+        </Link>
       </UserArea>
     ) : (
       <UserArea></UserArea>
@@ -79,6 +81,15 @@ const UserArea = styled.div`
   box-shadow: 0 0.25em 1em rgb(18, 18, 18, 0.15);
 
   cursor: pointer;
+
+  > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    color: var(--off-black);
+  }
 `;
 
 const UserIcon = styled.div`
@@ -117,14 +128,6 @@ const LoginLogoutWrapper = styled.div`
     color: var(--off-black);
     font-size: small;
     text-decoration: none;
-
-    /* :link {
-      color: var(--off-black);
-    }
-
-    :visited {
-      color: var(--off-black);
-    } */
 
     :hover {
       cursor: pointer;
