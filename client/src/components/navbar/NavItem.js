@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { Container } from '../styles/common/Container.styled';
@@ -8,7 +9,7 @@ const NavItem = ({data, ...props}) => {
     <>
       <Container>
         <Wrapper id="nav-item-wrapper" debug>
-          {data.name}
+          <Link to={`/collection/${data.name}`}>{data.name}</Link>
         </Wrapper>
       </Container>
     </>
@@ -43,5 +44,10 @@ const Wrapper = styled.div`
     box-shadow: 0em 0.25em 0.5em rgb(18, 18, 18, 0.15);
 
     cursor: pointer;
+  }
+
+  > * {
+    text-decoration: none;
+    color: var(--off-black);
   }
 `;
