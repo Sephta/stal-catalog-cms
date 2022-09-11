@@ -6,11 +6,6 @@ const Home = (props) => {
   const user = useContext(UserContext);
   const setUser = useContext(UserDispatchContext);
 
-  const handleLogout = (event) => {
-    setUser(null);
-    localStorage.removeItem("user");
-  }
-
   useEffect(() => {
     if (!user) {
       let localUser = localStorage.getItem("user");

@@ -4,7 +4,7 @@ import styled, {css} from 'styled-components';
 import { Link } from 'react-router-dom';
 import { UserContext, UserDispatchContext } from '../common/UserProvider';
 
-const UserNavbarManager = (props) => {
+const UserNavbarManager = ({setCollections, ...props}) => {
   const user = useContext(UserContext);
   const setUser = useContext(UserDispatchContext);
 
@@ -23,13 +23,22 @@ const UserNavbarManager = (props) => {
     }
   }, [user]);
 
+  const generateUserArea = (user) => {
+    let result = user ? (
+      <UserArea>
+        <UserIcon />
+        {user ? (<p>{user.username}</p>) : (<p>{`Name`}</p>)}
+      </UserArea>
+    ) : (
+      <UserArea></UserArea>
+    );
+    return result;
+  }
+
   return (
     <>
       <Wrapper>
-        <UserArea>
-          <UserIcon />
-          {user ? (<p>{user.username}</p>) : (<p>{`Name`}</p>)}
-        </UserArea>
+        {generateUserArea(user)}
         <LoginLogoutWrapper>
           {user == null ? (<Link to={`/register`}>Register</Link>) : (<></>)}
           {user == null ? (<Link to={`/login`}>Login</Link>) : (<button onClick={handleLogout}>Logout</button>)}
@@ -40,6 +49,10 @@ const UserNavbarManager = (props) => {
 };
 
 export default UserNavbarManager;
+
+UserNavbarManager.propTypes = {
+  setCollections: PropTypes.func,
+}
 
 const Wrapper = styled.div`
   width: 20em;

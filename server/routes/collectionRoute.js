@@ -9,8 +9,8 @@ const {
   postCollection,
 } = require('../controllers/collectionController');
 
-router.get('/', debugEndpoint, authenticate, getCollections);
-router.get('/:name', debugEndpoint, authenticate, getCollection);
+router.get('/', debugEndpoint, getCollections);
+router.get('/:name', debugEndpoint, getCollection);
 router.post('/', debugEndpoint, postCollection);
 
 module.exports = router;
