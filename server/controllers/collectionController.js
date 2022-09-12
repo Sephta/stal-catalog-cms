@@ -67,16 +67,14 @@ const postCollection = asyncHandler(async (req, res) => {
 // @route  PUT /api/collection
 // @access Public
 const putCollection = asyncHandler(async (req, res) => {
-  const collections = await Collection.find();
-  res.status(200).send(generateJSONResponse("SUCCESS - Collections", collections));
+  res.status(200).send(generateJSONResponse("SUCCESS - Collections PUT"));
 });
 
 // @desc   Delete Collection data
 // @route  DELETE /api/collection
 // @access Public
 const deleteCollection = asyncHandler(async (req, res) => {
-  const collections = await Collection.find();
-  res.status(200).send(generateJSONResponse("SUCCESS - Collections", collections));
+  res.status(200).send(generateJSONResponse("SUCCESS - Collections DELETE"));
 });
 
 module.exports = {

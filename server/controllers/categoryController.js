@@ -7,8 +7,8 @@ const { generateJSONResponse } = require("../helpers/helpers");
 // @route  GET /api/collection
 // @access Public
 const getCategories = asyncHandler(async (req, res) => {
-  const collections = await Collection.find();
-  res.status(200).send(generateJSONResponse("SUCCESS - Collections", collections));
+  const categories = await Category.find();
+  res.status(200).send(generateJSONResponse("SUCCESS - Collections", categories));
 });
 
 // @desc   Get Category data
