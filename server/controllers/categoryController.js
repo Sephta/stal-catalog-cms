@@ -22,7 +22,37 @@ const getCategory = asyncHandler(async (req, res) => {
 // @route  POST /api/category
 // @access Public
 const postCategory = asyncHandler(async (req, res) => {
-  res.status(200).send(generateJSONResponse("SUCCESS - Category POST"));
+  const {
+    name,
+    subCategories,
+  } = req.body;
+
+  if (!name || !subCategories) {
+    res.status(400);
+    throw new Error("Please add all fields.");
+  }
+
+  const categoryExists = await Category.findOne({name});
+
+  if (categoryExists) {
+    res.status(400)
+    throw new Error(`Item with name: ${name} already exists.`);
+  }
+
+  const category = await Category.create({
+    name,
+    subCategories
+  });
+
+  if (category) {
+    res.status(201).send(generateJSONResponse("SUCCESS - Collection created.", {
+      name: category.name,
+      subCategories: category.subCategories
+    }));
+  } else {
+    res.status(400)
+    throw new Error(`Error creating new collection with name: ${name}`);
+  }
 });
 
 // @desc   Put Category data

@@ -35,7 +35,10 @@ const getCollection = asyncHandler(async (req, res) => {
 // @route  POST /api/collection
 // @access Public
 const postCollection = asyncHandler(async (req, res) => {
-  const { name } = req.body;
+  const {
+    name,
+    subCollections,
+  } = req.body;
 
   if (!name) {
     res.status(400);
@@ -50,12 +53,14 @@ const postCollection = asyncHandler(async (req, res) => {
   }
 
   const collection = await Collection.create({
-    name
+    name,
+    subCollections,
   });
 
   if (collection) {
     res.status(201).send(generateJSONResponse("SUCCESS - Collection created.", {
       name: collection.name,
+      subCollections: collection.subCollections,
     }));
   } else {
     res.status(400)

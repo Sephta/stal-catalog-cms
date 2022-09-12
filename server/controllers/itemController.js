@@ -24,10 +24,10 @@ const getItem = asyncHandler(async (req, res) => {
 const postItem = asyncHandler(async (req, res) => {
   const {
     name,
-    img
+    img,
   } = req.body;
 
-  if (!name) {
+  if (!name || !img) {
     res.status(400);
     throw new Error("Please add all fields.");
   }

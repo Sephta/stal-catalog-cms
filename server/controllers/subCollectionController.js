@@ -22,7 +22,37 @@ const getSubCollection = asyncHandler(async (req, res) => {
 // @route  POST /api/subcollection
 // @access Public
 const postSubCollection = asyncHandler(async (req, res) => {
-  res.status(200).send(generateJSONResponse("SUCCESS - SubCollections POST"));
+  const {
+    name,
+    categories,
+  } = req.body;
+
+  if (!name || !categories) {
+    res.status(400);
+    throw new Error("Please add all fields.");
+  }
+
+  const subCollectionExists = await SubCollection.findOne({name});
+
+  if (subCollectionExists) {
+    res.status(400)
+    throw new Error(`Item with name: ${name} already exists.`);
+  }
+
+  const subCollection = await SubCollection.create({
+    name,
+    categories
+  });
+
+  if (subCollection) {
+    res.status(201).send(generateJSONResponse("SUCCESS - Collection created.", {
+      name: subCollection.name,
+      categories: subCollection.categories
+    }));
+  } else {
+    res.status(400)
+    throw new Error(`Error creating new collection with name: ${name}`);
+  }
 });
 
 // @desc   Put SubCollections data
