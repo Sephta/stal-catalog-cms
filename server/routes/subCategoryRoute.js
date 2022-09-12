@@ -13,7 +13,7 @@ const {
 
 router.get('/', debugEndpoint, getSubCategories);
 router.get('/:name', debugEndpoint, getSubCategory);
-router.post('/:name', debugEndpoint, postSubCategory);
+router.post('/', debugEndpoint, postSubCategory);
 router.put('/:name', debugEndpoint, putSubCategory);
 router.delete('/:name', debugEndpoint, deleteSubCategory);
 

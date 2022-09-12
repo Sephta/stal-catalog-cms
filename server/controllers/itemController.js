@@ -22,7 +22,37 @@ const getItem = asyncHandler(async (req, res) => {
 // @route  POST /api/item
 // @access Public
 const postItem = asyncHandler(async (req, res) => {
-  res.status(200).send(generateJSONResponse("SUCCESS - Item POST"));
+  const {
+    name,
+    img
+  } = req.body;
+
+  if (!name) {
+    res.status(400);
+    throw new Error("Please add all fields.");
+  }
+
+  const itemExists = await Item.findOne({name});
+
+  if (itemExists) {
+    res.status(400)
+    throw new Error(`Item with name: ${name} already exists.`);
+  }
+
+  const item = await Item.create({
+    name,
+    img
+  });
+
+  if (item) {
+    res.status(201).send(generateJSONResponse("SUCCESS - Collection created.", {
+      name: item.name,
+      img: item.img
+    }));
+  } else {
+    res.status(400)
+    throw new Error(`Error creating new collection with name: ${name}`);
+  }
 });
 
 // @desc   Put Item data

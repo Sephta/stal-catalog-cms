@@ -13,7 +13,7 @@ const {
 
 router.get('/', debugEndpoint, getItems);
 router.get('/:name', debugEndpoint, getItem);
-router.post('/:name', debugEndpoint, postItem);
+router.post('/', debugEndpoint, postItem);
 router.put('/:name', debugEndpoint, putItem);
 router.delete('/:name', debugEndpoint, deleteItem);
 

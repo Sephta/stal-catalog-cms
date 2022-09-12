@@ -13,7 +13,7 @@ const {
 
 router.get('/', debugEndpoint, getCategories);
 router.get('/:name', debugEndpoint, getCategory);
-router.post('/:name', debugEndpoint, postCategory);
+router.post('/', debugEndpoint, postCategory);
 router.put('/:name', debugEndpoint, putCategory);
 router.delete('/:name', debugEndpoint, deleteCategory);
 
