@@ -22,6 +22,7 @@ const getItem = asyncHandler(async (req, res) => {
 
   if (item) {
     res.status(200).send(generateJSONResponse("SUCCESS - Collection", {
+      id: item.id,
       name: item.name,
       img: item.img,
     }));

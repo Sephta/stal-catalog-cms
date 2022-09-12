@@ -21,6 +21,7 @@ const getCategory = asyncHandler(async (req, res) => {
 
   if (category) {
     res.status(200).send(generateJSONResponse("SUCCESS - Collection", {
+      id: category.id,
       name: category.name,
       subCategories: category.subCategories,
     }));

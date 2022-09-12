@@ -21,6 +21,7 @@ const getSubCollection = asyncHandler(async (req, res) => {
 
   if (subCollection) {
     res.status(200).send(generateJSONResponse("SUCCESS - Collection", {
+      id: subCollection.id,
       name: subCollection.name,
       categories: subCollection.categories,
     }));
