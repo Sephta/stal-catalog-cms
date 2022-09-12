@@ -3,22 +3,16 @@ const router = express.Router();
 const env = require('../config/env');
 const { generateJSONResponse } = require('../helpers/helpers');
 
-const aRouter = require('./testRouteA');
-const bRouter = require('./testRouteB');
 const userRouter = require('./userRoute');
 const collectionRouter = require('./collectionRoute');
+const subCollectionRouter = require('./subCollectionRoute');
+const categoryRouter = require('./categoryRoute');
+const subCategoryRouter = require('./subCategoryRoute');
+const itemRouter = require('./itemRoute');
 
 const docsRouter = require('./docs');
 
 const routes = [
-  {
-    path: '/a',
-    route: aRouter,
-  },
-  {
-    path: '/b',
-    route: bRouter,
-  },
   {
     path: '/user',
     route: userRouter,
@@ -26,7 +20,23 @@ const routes = [
   {
     path: '/collection',
     route: collectionRouter,
-  }
+  },
+  {
+    path: '/subcollection',
+    route: subCollectionRouter,
+  },
+  {
+    path: '/category',
+    route: categoryRouter,
+  },
+  {
+    path: '/subcategory',
+    route: subCategoryRouter,
+  },
+  {
+    path: '/item',
+    route: itemRouter,
+  },
 ];
 
 const devRoutes = [

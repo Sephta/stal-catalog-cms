@@ -1,10 +1,7 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const Collection = require('../models/collectionModel');
 
-const { generateJSONResponse, generateToken } = require("../helpers/helpers");
-const { json } = require('express');
+const { generateJSONResponse } = require("../helpers/helpers");
 
 // @desc   Get Collection data
 // @route  GET /api/collection
@@ -66,8 +63,26 @@ const postCollection = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc   Put Collection data
+// @route  PUT /api/collection
+// @access Public
+const putCollection = asyncHandler(async (req, res) => {
+  const collections = await Collection.find();
+  res.status(200).send(generateJSONResponse("SUCCESS - Collections", collections));
+});
+
+// @desc   Delete Collection data
+// @route  DELETE /api/collection
+// @access Public
+const deleteCollection = asyncHandler(async (req, res) => {
+  const collections = await Collection.find();
+  res.status(200).send(generateJSONResponse("SUCCESS - Collections", collections));
+});
+
 module.exports = {
   getCollections,
   getCollection,
   postCollection,
+  putCollection,
+  deleteCollection,
 }

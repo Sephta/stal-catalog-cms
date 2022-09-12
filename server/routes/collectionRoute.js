@@ -7,10 +7,14 @@ const {
   getCollections,
   getCollection,
   postCollection,
+  putCollection,
+  deleteCollection,
 } = require('../controllers/collectionController');
 
 router.get('/', debugEndpoint, getCollections);
 router.get('/:name', debugEndpoint, getCollection);
-router.post('/', debugEndpoint, postCollection);
+router.post('/:name', debugEndpoint, postCollection);
+router.put('/:name', debugEndpoint, putCollection);
+router.delete('/:name', debugEndpoint, deleteCollection);
 
 module.exports = router;

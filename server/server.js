@@ -25,4 +25,4 @@ api.get('/', debugEndpoint, (req, res) => {
 
 const routes = require('./routes');
 
-api.use('/api', debugEndpoint, routes);
+api.use('/api', routes);
