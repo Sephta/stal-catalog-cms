@@ -12,7 +12,7 @@ const {
 } = require('../controllers/collectionController');
 
 router.get('/', debugEndpoint, getCollections);
-router.get('/:name', debugEndpoint, getCollection);
+router.get('/:id', debugEndpoint, getCollection);
 router.post('/', debugEndpoint, postCollection);
 router.put('/:name', debugEndpoint, putCollection);
 router.delete('/:name', debugEndpoint, deleteCollection);

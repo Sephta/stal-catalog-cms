@@ -15,15 +15,14 @@ const getCollections = asyncHandler(async (req, res) => {
 // @route  GET /api/collection
 // @access Public
 const getCollection = asyncHandler(async (req, res) => {
-  const { name } = req.params;
+  const { id } = req.params;
 
-  const collection = await Collection.findOne({
-    name: name,
-  });
+  const collection = await Collection.findById(id);
 
   if (collection) {
     res.status(200).send(generateJSONResponse("SUCCESS - Collection", {
       name: collection.name,
+      subCollections: collection.subCollections,
     }));
   } else {
     res.status(400);

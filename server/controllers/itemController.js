@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Item = require('../models/itemModel');
 
 const { generateJSONResponse } = require("../helpers/helpers");
+const { default: mongoose } = require('mongoose');
 
 // @desc   Get Collection data
 // @route  GET /api/collection
@@ -15,7 +16,19 @@ const getItems = asyncHandler(async (req, res) => {
 // @route  GET /api/item
 // @access Public
 const getItem = asyncHandler(async (req, res) => {
-  res.status(200).send(generateJSONResponse("SUCCESS - Item GET"));
+  const { id } = req.params;
+
+  const item = await Item.findById(id);
+
+  if (item) {
+    res.status(200).send(generateJSONResponse("SUCCESS - Collection", {
+      name: item.name,
+      img: item.img,
+    }));
+  } else {
+    res.status(400);
+    throw new Error(`category with name: ${name} not found.`);
+  }
 });
 
 // @desc   Post Item data

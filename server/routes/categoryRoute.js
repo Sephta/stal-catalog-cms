@@ -12,7 +12,7 @@ const {
 } = require('../controllers/categoryController');
 
 router.get('/', debugEndpoint, getCategories);
-router.get('/:name', debugEndpoint, getCategory);
+router.get('/:id', debugEndpoint, getCategory);
 router.post('/', debugEndpoint, postCategory);
 router.put('/:name', debugEndpoint, putCategory);
 router.delete('/:name', debugEndpoint, deleteCategory);

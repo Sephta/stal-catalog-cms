@@ -12,7 +12,7 @@ const {
 } = require('../controllers/subCategoryController');
 
 router.get('/', debugEndpoint, getSubCategories);
-router.get('/:name', debugEndpoint, getSubCategory);
+router.get('/:id', debugEndpoint, getSubCategory);
 router.post('/', debugEndpoint, postSubCategory);
 router.put('/:name', debugEndpoint, putSubCategory);
 router.delete('/:name', debugEndpoint, deleteSubCategory);

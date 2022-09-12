@@ -12,7 +12,7 @@ const {
 } = require('../controllers/subCollectionController');
 
 router.get('/', debugEndpoint, getSubCollections);
-router.get('/:name', debugEndpoint, getSubCollection);
+router.get('/:id', debugEndpoint, getSubCollection);
 router.post('/', debugEndpoint, postSubCollection);
 router.put('/:name', debugEndpoint, postSubCollection);
 router.delete('/:name', debugEndpoint, postSubCollection);

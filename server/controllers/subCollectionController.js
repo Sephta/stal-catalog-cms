@@ -15,7 +15,19 @@ const getSubCollections = asyncHandler(async (req, res) => {
 // @route  GET /api/subcollection
 // @access Public
 const getSubCollection = asyncHandler(async (req, res) => {
-  res.status(200).send(generateJSONResponse("SUCCESS - SubCollections GET"));
+  const { id } = req.params;
+
+  const subCollection = await SubCollection.findById(id);
+
+  if (subCollection) {
+    res.status(200).send(generateJSONResponse("SUCCESS - Collection", {
+      name: subCollection.name,
+      categories: subCollection.categories,
+    }));
+  } else {
+    res.status(400);
+    throw new Error(`Sub Collection with name: ${name} not found.`);
+  }
 });
 
 // @desc   Post SubCollections data

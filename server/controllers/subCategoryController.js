@@ -15,7 +15,19 @@ const getSubCategories = asyncHandler(async (req, res) => {
 // @route  GET /api/subcategory
 // @access Public
 const getSubCategory = asyncHandler(async (req, res) => {
-  res.status(200).send(generateJSONResponse("SUCCESS - SubCategory GET"));
+  const { id } = req.params;
+
+  const subCategory = await SubCategory.findById(id);
+
+  if (subCategory) {
+    res.status(200).send(generateJSONResponse("SUCCESS - Collection", {
+      name: subCategory.name,
+      items: subCategory.items,
+    }));
+  } else {
+    res.status(400);
+    throw new Error(`category with name: ${name} not found.`);
+  }
 });
 
 // @desc   Post SubCategory data
