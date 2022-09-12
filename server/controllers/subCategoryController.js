@@ -22,12 +22,14 @@ const getSubCategory = asyncHandler(async (req, res) => {
   if (subCategory) {
     res.status(200).send(generateJSONResponse("SUCCESS - Collection", {
       id: subCategory.id,
-      name: subCategory.name,
+      title: subCategory.title,
+      subTitle: subCategory.subTitle,
+      content: subCategory.content,
       items: subCategory.items,
     }));
   } else {
     res.status(400);
-    throw new Error(`category with name: ${name} not found.`);
+    throw new Error(`category with id: ${id} not found.`);
   }
 });
 
@@ -36,35 +38,42 @@ const getSubCategory = asyncHandler(async (req, res) => {
 // @access Public
 const postSubCategory = asyncHandler(async (req, res) => {
   const {
-    name,
+    title,
+    subTitle,
+    content,
     items,
   } = req.body;
 
-  if (!name || !items) {
+  if (!title || !subTitle || !content || !items) {
     res.status(400);
     throw new Error("Please add all fields.");
   }
 
-  const subCategoryExists = await SubCategory.findOne({name});
+  const subCategoryExists = await SubCategory.findOne({title});
 
   if (subCategoryExists) {
     res.status(400)
-    throw new Error(`Item with name: ${name} already exists.`);
+    throw new Error(`Item with name: ${title} already exists.`);
   }
 
   const subCategory = await SubCategory.create({
-    name,
-    items
+    title,
+    subTitle,
+    content,
+    items,
   });
 
   if (subCategory) {
     res.status(201).send(generateJSONResponse("SUCCESS - Collection created.", {
-      name: subCategory.name,
+      id: subCategory.id,
+      title: subCategory.title,
+      subTitle: subCategory.subTitle,
+      content: subCategory.content,
       items: subCategory.items,
     }));
   } else {
     res.status(400)
-    throw new Error(`Error creating new collection with name: ${name}`);
+    throw new Error(`Error creating new collection with name: ${title}`);
   }
 });
 

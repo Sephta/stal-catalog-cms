@@ -27,7 +27,7 @@ const getCollection = asyncHandler(async (req, res) => {
     }));
   } else {
     res.status(400);
-    throw new Error(`Collection with name: ${name} not found.`);
+    throw new Error(`Collection with id: ${id} not found.`);
   }
 });
 

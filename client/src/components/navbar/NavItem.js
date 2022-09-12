@@ -8,7 +8,7 @@ const NavItem = ({data, ...props}) => {
   return (
     <>
       <Wrapper debug>
-        <Link to={`/collection/${data.name}`}>{data.name}</Link>
+        <Link to={`/collection/${data._id}`}>{data.name}</Link>
       </Wrapper>
     </>
   );

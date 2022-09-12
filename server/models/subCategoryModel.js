@@ -2,7 +2,15 @@ const mongoose = require('mongoose');
 
 const subCategorySchema = mongoose.Schema(
   {
-    name: {
+    title: {
+      type: mongoose.Schema.Types.String,
+      required: [true, 'Please provide a text value...']
+    },
+    subTitle: {
+      type: mongoose.Schema.Types.String,
+      required: [true, 'Please provide a text value...']
+    },
+    content: {
       type: mongoose.Schema.Types.String,
       required: [true, 'Please provide a text value...']
     },

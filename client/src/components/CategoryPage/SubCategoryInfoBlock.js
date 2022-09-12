@@ -3,8 +3,45 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SubCategoryItemBlock from './SubCategoryItemBlock';
+import { useEffect } from 'react';
+import { LazyFetch } from '../common/requests';
+import { v4 as uuid } from 'uuid';
 
 const SubCategoryInfoBlock = ({data, ...props}) => {
+  const [items, setItems] = useState(null);
+
+  useEffect(() => {
+    asyncFetchItems();
+  }, []);
+
+  const asyncFetchItems = async () => {
+    for (const itemId of data.items) {
+      await LazyFetch({
+        type: `get`,
+        endpoint: `/api/item/${itemId}`,
+        onSuccess: (data) => {
+          // console.debug(`[DEBUG] - ${JSON.stringify(data)}`);
+          let newSubCategoryItemBlock = (<SubCategoryItemBlock 
+            key={uuid()} 
+            data={data.result}
+          />);
+
+          if (items) {
+            for (const item of items) {
+              if (!(item.props.data.id === data.result.id)) {
+                setItems(items ? [...items, newSubCategoryItemBlock] : [newSubCategoryItemBlock]);
+              }
+            }
+          } else {
+            setItems(items ? [...items, newSubCategoryItemBlock] : [newSubCategoryItemBlock]);
+          }
+        },
+        onFailure: (err) => {
+          console.error(`[ERROR] - ${err}`);
+        },
+      });
+    }
+  }
 
   const generateItems = (amount) => {
     let result = []
@@ -22,16 +59,16 @@ const SubCategoryInfoBlock = ({data, ...props}) => {
     <>
       <Wrapper>
         <Title>
-          <Link to={`/`}>{data.title}</Link>
+          <Link to={`/subcategory/${data.id}`}>{data.title}</Link>
         </Title>
         <ContentWrapper>
-          <Link to={`/`}>{data.subtitle}</Link>
+          <Link to={`/`}>{data.subTitle}</Link>
           <ContentBlerb>
-            {data.blerb}
+            {data.content}
           </ContentBlerb>
         </ContentWrapper>
         <ItemWrapper>
-          { generateItems(3) }
+          { items }
         </ItemWrapper>
       </Wrapper>
     </>

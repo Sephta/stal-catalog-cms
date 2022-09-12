@@ -1,8 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const SubCategoryItemBlock = ({data, ...props}) => {
@@ -10,10 +8,11 @@ const SubCategoryItemBlock = ({data, ...props}) => {
 
   return (
     <>
-      <Link to={`/subcategory/${data.name}`}>
+      <Link to={`/subcategory/${data.id}`}>
         <Wrapper 
           onMouseEnter={(event) => {setHover(true)}}
           onMouseLeave={(event) => {setHover(false)}}
+          img={data.img}
         >
           {hover ? (<Tooltip />) : (<></>)}
         </Wrapper>
@@ -36,6 +35,7 @@ const Wrapper = styled.div`
 
   background-color: var(--contrast-01);
   border-radius: 2em;
+  background-image: ${({img}) => css`url(${img})`};
 
   :hover {
     cursor: pointer;

@@ -17,7 +17,7 @@ const CollectionProvider = ({ children }) => {
 
   useInterval(() => {
     if (!CollectionDetails) {
-      console.debug(`[DEBUG] - wowwie, no collections`);
+      // console.debug(`[DEBUG] - wowwie, no collections`);
       LazyFetch({
         type: 'get',
         endpoint: '/api/collection',
@@ -27,7 +27,6 @@ const CollectionProvider = ({ children }) => {
           //   console.debug(`[DEBUG] - ${JSON.stringify(item)}`);
           // });
           setCollectionDetails(data.result);
-          setTryAgain(false);
         },
         onFailure: (err) => {
           console.error(`[ERROR] - ${err?.message}`);

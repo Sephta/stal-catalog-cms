@@ -26,10 +26,10 @@ const App = (props) => {
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path={`/userprofile` } element={<UserProfile />} />
-              <Route path={`/collection/:name`} element={<Collection />} />
-              <Route path={`/subcollection/:name`} element={<SubCollection />} />
-              <Route path={`/category/:name`} element={<Category />} />
-              <Route path={`/subcategory/:name`} element={<SubCategory />} />
+              <Route path={`/collection/:id`} element={<Collection />} />
+              <Route path={`/subcollection/:id`} element={<SubCollection />} />
+              <Route path={`/category/:id`} element={<Category />} />
+              <Route path={`/subcategory/:id`} element={<SubCategory />} />
             </Routes>
           </CollectionProvider>
           </UserProvider>

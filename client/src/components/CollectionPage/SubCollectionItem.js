@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const SubCollectionItem = ({data, ...props}) => {
   return (
     <>
-      <Link to={`/category/${data.name}`}>
+      <Link to={`/category/${data.id}`}>
         <Wrapper>
 
         </Wrapper>
@@ -18,7 +18,6 @@ const SubCollectionItem = ({data, ...props}) => {
 export default SubCollectionItem;
 
 SubCollectionItem.propTypes = {
-  key: PropTypes.number,
   data: PropTypes.object,
 };
 

@@ -1,37 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import SubCollectionItem from './SubCollectionItem';
 import { Link } from 'react-router-dom';
+import { CollectionContext } from '../common/CollectionProvider';
+import { LazyFetch } from '../common/requests';
+import ThreeDots from 'react-loading-icons/dist/esm/components/three-dots';
+import { v4 as uuid } from 'uuid';
 
 const SubCollectionContainer = ({data, ...props}) => {
+  const collections = useContext(CollectionContext);
+  const [categories, setCategories] = useState(null);
 
-  const generateItems = (amount) => {    
-    let result = []
-
-    for (let i = 0; i < amount; i++) {
-      result.push(<SubCollectionItem key={i} data={{name: data.subCollections[i]}} />)
+  useEffect(() => {
+    if (collections) {
+      asyncFetchCategories();
     }
+  }, []);
 
-    return result
-  }
+  const asyncFetchCategories = async () => {
+    for (const categoryId of data.categories) {
+      await LazyFetch({
+        type: 'get',
+        endpoint: `/api/category/${categoryId}`,
+        onSuccess: (data) => {
+          let newCategory = (<SubCollectionItem 
+            key={uuid()} 
+            data={data.result} 
+          />)
 
-  return (
+          if (categories) {
+            for (const cat of categories) {
+              if (!(cat.props.data.id === data.result.id)) {
+                setCategories(categories ? [...categories, newCategory] : [newCategory]);
+              }
+            }
+          } else {
+            setCategories(categories ? [...categories, newCategory] : [newCategory]);
+          }
+        },
+        onFailure: (err) => {
+          console.error(`[ERROR] - ${err}`);
+        },
+      });
+    }
+  };
+
+  return categories ? (
     <>
       <Wrapper>
-        <Link to={`/subcollection/${data.name}`}>{data.name}</Link>
+        <Link to={`/subcollection/${data.id}`}>{data.name}</Link>
         <ContentWrapper>
-          { generateItems(data.amount) }
+          { categories }
         </ContentWrapper>
       </Wrapper>
     </>
-  );
+  ) : (<ThreeDots fill={`var\(--highlight-04\)`} />);
 };
 
 export default SubCollectionContainer;
 
 SubCollectionContainer.propTypes = {
-  key: PropTypes.number,
   data: PropTypes.object,
 };
 

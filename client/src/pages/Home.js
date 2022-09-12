@@ -12,7 +12,7 @@ const Home = (props) => {
     if (!user) {
       let localUser = localStorage.getItem("user");
       if (localUser) {
-        console.debug(`[DEBUG] - <Home>: localUser = `, JSON.parse(localUser));
+        // console.debug(`[DEBUG] - <Home>: localUser = `, JSON.parse(localUser));
         setUser(JSON.parse(localUser));
       }
     }

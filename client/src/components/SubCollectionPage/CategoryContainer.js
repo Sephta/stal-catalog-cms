@@ -3,15 +3,16 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import CategoryItem from './CategoryItem';
+import  {v4 as uuid} from 'uuid';
 
 const CategoryContainer = ({ data, ...props}) => {
 
-  const generateItems = (amount) => {    
+  const generateItems = (data) => {    
     let result = []
 
-    for (let i = 0; i < amount; i++) {
-      result.push(<CategoryItem key={i} data={{name: data.subCategories[i]}} />)
-    }
+    data.subCategories.forEach(subCategoryId => {
+      result.push(<CategoryItem key={uuid()} data={{name: subCategoryId}} />)
+    });
 
     return result
   }
@@ -19,9 +20,9 @@ const CategoryContainer = ({ data, ...props}) => {
   return (
     <>
       <Wrapper>
-        <Link to={`/category/${data.name}`}>{data.name}</Link>
+        <Link to={`/category/${data.id}`}>{data.name}</Link>
         <ContentWrapper>
-          { generateItems(data.amount) }
+          { generateItems(data) }
         </ContentWrapper>
       </Wrapper>
     </>
@@ -31,7 +32,6 @@ const CategoryContainer = ({ data, ...props}) => {
 export default CategoryContainer;
 
 CategoryContainer.propTypes = {
-  key: PropTypes.number,
   data: PropTypes.object,
 };
 
