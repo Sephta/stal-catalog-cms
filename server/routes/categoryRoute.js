@@ -7,6 +7,7 @@ const {
   getCategories,
   getCategory,
   postCategory,
+  postCategories,
   putCategory,
   deleteCategory,
 } = require('../controllers/categoryController');
@@ -14,6 +15,7 @@ const {
 router.get('/', debugEndpoint, getCategories);
 router.get('/:id', debugEndpoint, getCategory);
 router.post('/', debugEndpoint, postCategory);
+router.post('/multi', debugEndpoint, postCategories);
 router.put('/:name', debugEndpoint, putCategory);
 router.delete('/:name', debugEndpoint, deleteCategory);
 

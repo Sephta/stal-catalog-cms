@@ -7,6 +7,7 @@ const {
   getItems,
   getItem,
   postItem,
+  postItems,
   putItem,
   deleteItem,
 } = require('../controllers/itemController');
@@ -14,6 +15,7 @@ const {
 router.get('/', debugEndpoint, getItems);
 router.get('/:id', debugEndpoint, getItem);
 router.post('/', debugEndpoint, postItem);
+router.post('/multi', debugEndpoint, postItems)
 router.put('/:name', debugEndpoint, putItem);
 router.delete('/:name', debugEndpoint, deleteItem);
 

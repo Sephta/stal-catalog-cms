@@ -6,6 +6,7 @@ import SubCollection from "./SubCollection";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
 import UserProfile from "./UserProfile";
+import Item from "./Item";
 
 export {
   Home,
@@ -16,4 +17,5 @@ export {
   Category,
   SubCategory,
   UserProfile,
+  Item,
 };

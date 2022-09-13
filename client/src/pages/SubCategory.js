@@ -9,71 +9,83 @@ import Loading from '../components/common/Loading';
 import { LazyFetch } from '../components/common/requests';
 import SubCategoryItemBlock from '../components/CategoryPage/SubCategoryItemBlock';
 import { v4 as uuid } from 'uuid';
+import { useReducer } from 'react';
+import { useInterval } from '../hooks';
+import ThreeDots from 'react-loading-icons/dist/esm/components/three-dots';
+
+const DispatchAction = {
+  SubCategory: 'subcategory',
+  Items: 'items'
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case DispatchAction.SubCategory:
+      return { ...state, subCategory: action.payload };
+    case DispatchAction.Items:
+      return { ...state, items: action.payload };
+    default:
+      break;
+  }
+}
 
 const SubCategory = (props) => {
   const { id } = useParams();
   const [subCategory, setSubCategory] = useState(null);
   const [items, setItems] = useState(null);
 
-  useEffect(() => {
-    asyncFetchSubCategory();
-  }, []);
+  const [pageState, dispatch] = useReducer(reducer, {
+    subCategory: null,
+    items: [],
+  });
 
-  const asyncFetchSubCategory = async () => {
-    LazyFetch({
-    type: `get`,
-    endpoint: `/api/subcategory/${id}`,
-    onSuccess: (data) => {
-      setSubCategory(data.result);
-    },
-    onFailure: (err) => {
-      console.error(`[ERROR] - ${err}`);
-    },
-    })
-  }
-
-  useEffect(() => {
-    if (subCategory) {
-      console.debug(`[DEBUG] - ${JSON.stringify(subCategory)}`);
-      asyncFetchItems();
-    }
-  }, [subCategory]);
-
-  const asyncFetchItems = async () => {
-    for (const itemId of subCategory.items) {
-      await LazyFetch({
+  useInterval(() => {
+    if (!pageState.subCategory) {
+      LazyFetch({
         type: `get`,
-        endpoint: `/api/item/${itemId}`,
+        endpoint: `/api/subcategory/${id}`,
         onSuccess: (data) => {
-          let newSubCategoryItemBlock = (<SubCategoryItemBlock 
-            key={uuid()} 
-            data={data.result}
-          />);
-          
-          if (items) {
-            for (const item of items) {
-              if (!(item.props.data.id === data.result.id)) {
-                setItems(items ? [...items, newSubCategoryItemBlock] : [newSubCategoryItemBlock]);
-              }
-            }
-          } else {
-            setItems(items ? [...items, newSubCategoryItemBlock] : [newSubCategoryItemBlock]);
-          }
+          dispatch({ type: DispatchAction.SubCategory, payload: data.result });
         },
         onFailure: (err) => {
           console.error(`[ERROR] - ${err}`);
         },
       })
     }
-  }
+  }, 1000);
 
-  return subCategory ? (
+  useEffect(() => {
+    if (pageState.subCategory) {
+      LazyFetch({
+        type: `post`,
+        endpoint: `/api/item/multi`,
+        data: { ids: pageState.subCategory.items },
+        onSuccess: (data) => {
+          let newPayload = []
+          for (const item of data.result) {
+            let newSubCategoryItemBlock = (<SubCategoryItemBlock 
+              key={uuid()} 
+              data={item}
+            />);
+
+            newPayload.push(newSubCategoryItemBlock)
+          }
+          dispatch({ type: DispatchAction.Items, payload: newPayload });
+        },
+        onFailure: (err) => {
+          console.error(`[ERROR] - ${err}`);
+        },
+      })
+    }
+  }, [pageState.subCategory]);
+
+  return pageState.subCategory ? (
     <>
       <Navbar />
       <Wrapper>
-        <h1>{subCategory.title}</h1>
+        <h1>{pageState.subCategory.title}</h1>
         <Content>
-          {items}
+          { pageState.items ? pageState.items : <ThreeDots fill={`var\(--highlight-04\)`} /> }
         </Content>
       </Wrapper>
       <Footer />
@@ -86,7 +98,6 @@ export default SubCategory;
 SubCategory.propTypes = {}
 
 const Wrapper = styled.div`
-  width: 100%;
   height: 100%;
   padding: 1em;
 `;

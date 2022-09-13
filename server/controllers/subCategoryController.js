@@ -33,6 +33,27 @@ const getSubCategory = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc   Get SubCategory data
+// @route  GET /api/subcategory/multi
+// @access Public
+const postSubCategories = asyncHandler(async (req, res) => {
+  const { ids } = req.body;
+
+  if (!ids) {
+    res.status(400);
+    throw new Error("Please add all fields.");
+  }
+
+  const subCategories = await SubCategory.find({'_id' : { $in: ids}}).select('-__v -createdAt -updatedAt');
+
+  if (subCategories) {
+    res.status(200).send(generateJSONResponse("SUCCESS - POST multiple sub categories.", subCategories));
+  } else {
+    res.status(400);
+    throw new Error(`sub category with id: ${id} not found.`);
+  }
+});
+
 // @desc   Post SubCategory data
 // @route  POST /api/subcategory
 // @access Public
@@ -93,6 +114,7 @@ const deleteSubCategory = asyncHandler(async (req, res) => {
 
 module.exports = {
   getSubCategories,
+  postSubCategories,
   getSubCategory,
   postSubCategory,
   putSubCategory,

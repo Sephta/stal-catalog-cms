@@ -7,6 +7,7 @@ const {
   getSubCollections,
   getSubCollection,
   postSubCollection,
+  postSubCollections,
   putSubCollection,
   deleteSubCollection,
 } = require('../controllers/subCollectionController');
@@ -14,7 +15,8 @@ const {
 router.get('/', debugEndpoint, getSubCollections);
 router.get('/:id', debugEndpoint, getSubCollection);
 router.post('/', debugEndpoint, postSubCollection);
-router.put('/:name', debugEndpoint, postSubCollection);
-router.delete('/:name', debugEndpoint, postSubCollection);
+router.post('/multi', debugEndpoint, postSubCollections);
+router.put('/:name', debugEndpoint, putSubCollection);
+router.delete('/:name', debugEndpoint, deleteSubCollection);
 
 module.exports = router;

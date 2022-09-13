@@ -13,6 +13,7 @@ import {
   Category,
   SubCategory,
   UserProfile,
+  Item,
 } from './pages';
 
 const App = (props) => {
@@ -30,6 +31,7 @@ const App = (props) => {
               <Route path={`/subcollection/:id`} element={<SubCollection />} />
               <Route path={`/category/:id`} element={<Category />} />
               <Route path={`/subcategory/:id`} element={<SubCategory />} />
+              <Route path={`/item/:id`} element={<Item />} />
             </Routes>
           </CollectionProvider>
           </UserProvider>

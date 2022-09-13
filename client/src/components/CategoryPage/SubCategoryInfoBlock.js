@@ -11,55 +11,34 @@ const SubCategoryInfoBlock = ({data, ...props}) => {
   const [items, setItems] = useState(null);
 
   useEffect(() => {
-    asyncFetchItems();
-  }, []);
-
-  const asyncFetchItems = async () => {
-    for (const itemId of data.items) {
-      await LazyFetch({
-        type: `get`,
-        endpoint: `/api/item/${itemId}`,
-        onSuccess: (data) => {
-          // console.debug(`[DEBUG] - ${JSON.stringify(data)}`);
+    LazyFetch({
+      type: `post`,
+      endpoint: `/api/item/multi`,
+      data: { ids: data.items },
+      onSuccess: (data) => {
+        // console.debug(`[DEBUG] - ${JSON.stringify(data.result, null, 4)}`);
+        let newItems = []
+        for (const item of data.result) {
           let newSubCategoryItemBlock = (<SubCategoryItemBlock 
             key={uuid()} 
-            data={data.result}
+            data={item}
           />);
 
-          if (items) {
-            for (const item of items) {
-              if (!(item.props.data.id === data.result.id)) {
-                setItems(items ? [...items, newSubCategoryItemBlock] : [newSubCategoryItemBlock]);
-              }
-            }
-          } else {
-            setItems(items ? [...items, newSubCategoryItemBlock] : [newSubCategoryItemBlock]);
-          }
-        },
-        onFailure: (err) => {
-          console.error(`[ERROR] - ${err}`);
-        },
-      });
-    }
-  }
-
-  const generateItems = (amount) => {
-    let result = []
-
-    for (let i = 0; i < amount; i++) {
-      result.push(
-        (<SubCategoryItemBlock key={i} data={{name: data.items[i]}} />)
-      );
-    };
-
-    return result;
-  }
+          newItems.push(newSubCategoryItemBlock)
+        }
+        setItems(newItems);
+      },
+      onFailure: (err) => {
+        console.error(`[ERROR] - ${err}`);
+      },
+    })
+  }, []);
 
   return (
     <>
       <Wrapper>
         <Title>
-          <Link to={`/subcategory/${data.id}`}>{data.title}</Link>
+          <Link to={`/subcategory/${data._id}`}>{data.title}</Link>
         </Title>
         <ContentWrapper>
           <Link to={`/`}>{data.subTitle}</Link>

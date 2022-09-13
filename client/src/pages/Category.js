@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -9,88 +9,84 @@ import Loading from '../components/common/Loading';
 import { useInterval } from '../hooks';
 import { LazyFetch } from '../components/common/requests';
 import { v4 as uuid } from 'uuid';
+import ThreeDots from 'react-loading-icons/dist/esm/components/three-dots';
 
-const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+const DispatchAction = {
+  Category: 'category',
+  SubCategories: 'subcategories',
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case DispatchAction.Category:
+      return { ...state, category: action.payload };
+    case DispatchAction.SubCategories:
+      return { ...state, subCategories: action.payload };
+    default:
+      break;
+  }
+}
 
 const Category = (props) => {
   const { id } = useParams();
-  const [category, setCategory] = useState(null);
-  const [subCategories, setSubCategories] = useState(null);
+
+  const [pageState, dispatch] = useReducer(reducer, {
+    category: null,
+    subCategories: [],
+  });
 
   useInterval(() => {
-    if (!category) {
+    if (!pageState.category) {
       LazyFetch({
-        type: 'get',
+        type: `get`,
         endpoint: `/api/category/${id}`,
         onSuccess: (data) => {
-          // console.debug(`[DEBUG] - ${data.message}`);
-          // data.result.forEach(item => {
-          //   console.debug(`[DEBUG] - ${JSON.stringify(item)}`);
-          // });
-          setCategory(data.result);
+          // console.debug(`[DEBUG] - ${JSON.stringify(data, null, 4)}`);
+          dispatch({ type: DispatchAction.Category, payload: data.result });
         },
         onFailure: (err) => {
-          console.error(`[ERROR] - ${err?.message}`);
-        }
+          console.error(`[ERROR] - ${err}`);
+        },
       })
     }
   }, 1000);
 
   useEffect(() => {
-    if (category) {
-      // console.debug(`[DEBUG] - hello world`);
-      asyncFetchSubCategories();
-    }
-  }, [category]);
-
-  const asyncFetchSubCategories = async () => {
-    for (const subCategoryId of category.subCategories) {
-      await LazyFetch({
-        type: `get`,
-        endpoint: `/api/subcategory/${subCategoryId}`,
+    if (pageState.category) {
+      LazyFetch({
+        type: `post`,
+        endpoint: `/api/subcategory/multi`,
+        data: { ids: pageState.category.subCategories },
         onSuccess: (data) => {
-          // console.debug(`[DEBUG] - ${JSON.stringify(data)}`);
-          let newSubCategoryInfoBlock = <SubCategoryInfoBlock key={uuid()} data={data.result} />;
-          if (subCategories) {
-            for (const subcat of subCategories) {
-              if (!(subcat.props.data.id === data.result.id)) {
-                setSubCategories(subCategories ? [...subCategories, newSubCategoryInfoBlock] : [newSubCategoryInfoBlock]);
-              }
-            }
-          } else {
-            setSubCategories(subCategories ? [...subCategories, newSubCategoryInfoBlock] : [newSubCategoryInfoBlock]);
+          let newPayload = []
+          for (const subCat of data.result) {
+            // console.debug(`[DEBUG] - data ${JSON.stringify(subCat, null, 4)}`);
+            let newSubCategoryInfoBlock = <SubCategoryInfoBlock key={uuid()} data={subCat} />;
+            newPayload = [...new Set([...newPayload, newSubCategoryInfoBlock])]
           }
+          
+          dispatch({ type: DispatchAction.SubCategories, payload: newPayload });
         },
         onFailure: (err) => {
           console.error(`[ERROR] - ${err}`);
         },
-      });
+      })
     }
-  };
+  }, [pageState.category]);
 
-  return category ? (
+  // useEffect(() => {
+  //   if (pageState.subCategories) {
+  //     console.debug(`[DEBUG] - REDUCER TEST UPDATED ${JSON.stringify(pageState, null, 4)}`);
+  //   }
+  // }, [pageState]);
+
+  return pageState.category ? (
     <>
       <Navbar />
       <Wrapper>
-        <h1>{category.name}</h1>
+        <h1>{pageState.category.name}</h1>
         <ContentWrapper>
-          {subCategories ? subCategories : <></>}
-          {/* <SubCategoryInfoBlock
-            data={{
-              title: "Title",
-              subtitle: "Sub-Title",
-              blerb: lorem,
-              items: ["Item01", "Item02", "Item03"],
-            }}
-          />
-          <SubCategoryInfoBlock
-            data={{
-              title: "Title",
-              subtitle: "Sub-Title",
-              blerb: lorem+lorem+lorem+lorem+lorem+lorem+lorem+lorem,
-              items: ["Item01", "Item02", "Item03"],
-            }}
-          /> */}
+          { pageState.subCategories.length > 0 ? pageState.subCategories : <ThreeDots fill={`var\(--highlight-04\)`} /> }
         </ContentWrapper>
       </Wrapper>
       <Footer />
@@ -107,6 +103,10 @@ const Wrapper = styled.div`
   padding: 1em;
 `;
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.ul`
   padding: 1em;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
 `;

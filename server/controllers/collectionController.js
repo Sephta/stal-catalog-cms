@@ -7,7 +7,7 @@ const { generateJSONResponse } = require("../helpers/helpers");
 // @route  GET /api/collection
 // @access Public
 const getCollections = asyncHandler(async (req, res) => {
-  const collections = await Collection.find();
+  const collections = await Collection.find().select('-__v -createdAt -updatedAt');
   res.status(200).send(generateJSONResponse("SUCCESS - Collections", collections));
 });
 

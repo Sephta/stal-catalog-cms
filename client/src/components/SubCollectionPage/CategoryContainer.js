@@ -7,15 +7,7 @@ import  {v4 as uuid} from 'uuid';
 
 const CategoryContainer = ({ data, ...props}) => {
 
-  const generateItems = (data) => {    
-    let result = []
-
-    data.subCategories.forEach(subCategoryId => {
-      result.push(<CategoryItem key={uuid()} data={{name: subCategoryId}} />)
-    });
-
-    return result
-  }
+  const generateItems = (data) => data.subCategories.map((subCategoryId) => (<CategoryItem key={uuid()} data={{name: subCategoryId}} />));
 
   return (
     <>
@@ -36,7 +28,6 @@ CategoryContainer.propTypes = {
 };
 
 const Wrapper = styled.div`
-  /* width: 100%; */
   height: auto;
   margin: 1em 0;
   padding: 1em;
@@ -70,7 +61,6 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  /* width: 100%; */
   height: auto;
   margin: 1em 0;
   padding: 1em;

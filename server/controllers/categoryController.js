@@ -68,6 +68,27 @@ const postCategory = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc   Return multiple items based on array of ids
+// @route  POST /api/item/multi
+// @access Public
+const postCategories = asyncHandler(async (req, res) => {
+  const { ids } = req.body;
+
+  if (!ids) {
+    res.status(400);
+    throw new Error("Please add all fields.");
+  }
+
+  const categories = await Category.find({'_id' : { $in: ids}}).select('-__v -createdAt -updatedAt');
+
+  if (categories) {
+    res.status(200).send(generateJSONResponse("SUCCESS - POST multiple Categoriess.", categories));
+  } else {
+    res.status(400);
+    throw new Error(`Something went wrong finding Categoriess: ${JSON.stringify(ids)}.`);
+  }
+});
+
 // @desc   Put Category data
 // @route  PUT /api/category
 // @access Public
@@ -86,6 +107,7 @@ module.exports = {
   getCategories,
   getCategory,
   postCategory,
+  postCategories,
   putCategory,
   deleteCategory
 }

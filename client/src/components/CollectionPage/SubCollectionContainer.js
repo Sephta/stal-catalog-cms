@@ -65,7 +65,6 @@ SubCollectionContainer.propTypes = {
 };
 
 const Wrapper = styled.div`
-  /* width: 100%; */
   height: auto;
   margin: 1em 0;
   padding: 1em;
@@ -99,7 +98,6 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  /* width: 100%; */
   height: auto;
   margin: 1em 0;
   padding: 1em;

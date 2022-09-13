@@ -69,6 +69,27 @@ const postItem = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc   Return multiple items based on array of ids
+// @route  POST /api/item/multi
+// @access Public
+const postItems = asyncHandler(async (req, res) => {
+  const { ids } = req.body;
+
+  if (!ids) {
+    res.status(400);
+    throw new Error("Please add all fields.");
+  }
+
+  const items = await Item.find({'_id' : { $in: ids}}).select('-__v -createdAt -updatedAt');
+
+  if (items) {
+    res.status(200).send(generateJSONResponse("SUCCESS - POST multiple Items.", items));
+  } else {
+    res.status(400);
+    throw new Error(`Something went wrong finding Items: ${JSON.stringify(ids)}.`);
+  }
+});
+
 // @desc   Put Item data
 // @route  PUT /api/item
 // @access Public
@@ -87,6 +108,7 @@ module.exports = {
   getItems,
   getItem,
   postItem,
+  postItems,
   putItem,
   deleteItem
 }
