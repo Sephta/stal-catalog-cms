@@ -71,16 +71,16 @@ const SubCollection = (props) => {
     }
   }, [pageState.subCollection]);
 
-  return pageState.subCollection ? (
+  return (
     <>
       <Navbar />
       <Wrapper>
-        <h1>{pageState.subCollection.name}</h1>
-        { pageState.categories ? pageState.categories : <></>}
+        <h1>{pageState.subCollection ? pageState.subCollection.name : <></>}</h1>
+        { pageState.categories }
       </Wrapper>
       <Footer />
     </>
-  ) : (<Loading />);
+  );
 };
 
 export default SubCollection;

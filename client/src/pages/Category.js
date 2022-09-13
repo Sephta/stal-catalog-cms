@@ -74,24 +74,19 @@ const Category = (props) => {
     }
   }, [pageState.category]);
 
-  // useEffect(() => {
-  //   if (pageState.subCategories) {
-  //     console.debug(`[DEBUG] - REDUCER TEST UPDATED ${JSON.stringify(pageState, null, 4)}`);
-  //   }
-  // }, [pageState]);
-
-  return pageState.category ? (
+  return (
     <>
       <Navbar />
       <Wrapper>
-        <h1>{pageState.category.name}</h1>
+        <h1>{pageState.category ? pageState.category.name : <></>}</h1>
         <ContentWrapper>
-          { pageState.subCategories.length > 0 ? pageState.subCategories : <ThreeDots fill={`var\(--highlight-04\)`} /> }
+          {/* { pageState.subCategories.length > 0 ? pageState.subCategories : <ThreeDots fill={`var\(--highlight-04\)`} /> } */}
+          { pageState.subCategories.length > 0 ? pageState.subCategories : <></> }
         </ContentWrapper>
       </Wrapper>
       <Footer />
     </>
-  ) : (<Loading />);
+  );
 };
 
 export default Category;

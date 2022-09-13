@@ -46,7 +46,7 @@ const SubCollectionContainer = ({data, ...props}) => {
     }
   };
 
-  return categories ? (
+  return(
     <>
       <Wrapper>
         <Link to={`/subcollection/${data.id}`}>{data.name}</Link>
@@ -55,7 +55,7 @@ const SubCollectionContainer = ({data, ...props}) => {
         </ContentWrapper>
       </Wrapper>
     </>
-  ) : (<ThreeDots fill={`var\(--highlight-04\)`} />);
+  );
 };
 
 export default SubCollectionContainer;

@@ -79,18 +79,18 @@ const SubCategory = (props) => {
     }
   }, [pageState.subCategory]);
 
-  return pageState.subCategory ? (
+  return (
     <>
       <Navbar />
       <Wrapper>
-        <h1>{pageState.subCategory.title}</h1>
+        <h1>{pageState.subCategory ? pageState.subCategory.title : <></>}</h1>
         <Content>
           { pageState.items ? pageState.items : <ThreeDots fill={`var\(--highlight-04\)`} /> }
         </Content>
       </Wrapper>
       <Footer />
     </>
-  ) : (<Loading />);
+  );
 };
 
 export default SubCategory;

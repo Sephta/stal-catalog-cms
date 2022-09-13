@@ -1,6 +1,6 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useReducer } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { LazyFetch, AsyncFetch } from '../components/common/requests';
 import { useState } from 'react';
@@ -11,70 +11,81 @@ import { SubCollectionContainer } from '../components/CollectionPage';
 import { CollectionContext } from '../components/common/providers';
 import { v4 as uuid } from 'uuid';
 import Loading from '../components/common/Loading';
+import { useInterval } from '../hooks';
+
+const DispatchAction = {
+  Collection: 'collection',
+  SubCollections: 'subcollections',
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case DispatchAction.Collection:
+      return { ...state, collection: action.payload };
+    case DispatchAction.SubCollections:
+      return { ...state, subCollections: action.payload };
+    default:
+      break;
+  }
+}
 
 const Collection = (props) => {
   const { id } = useParams();
-  const collections = useContext(CollectionContext);
-  const [subCollections, setSubCollections] = useState(null);
+  const [pageState, dispatch] = useReducer(reducer, {
+    collection: null,
+    subCollections: [],
+  });
+
+  useInterval(() => {
+    if (!pageState.collection) {
+      LazyFetch({
+        type: `get`,
+        endpoint: `/api/collection/${id}`,
+        onSuccess: (data) => {
+          dispatch({ type: DispatchAction.Collection, payload: data.result });
+        },
+        onFailure: (err) => {
+          console.error(`[ERROR] - ${err}`);
+        },
+      })
+    }
+  }, 1000);
 
   useEffect(() => {
-    if (collections) {
-      asyncFetchSubCollections();
-    }
-  }, []);
-
-  const asyncFetchSubCollections = async () => {
-    for (const collection of collections) {
-      if (collection._id == id) {
-        for (const subCollection of collection.subCollections) {
-          await LazyFetch({
-            type: 'get',
-            endpoint: `/api/subcollection/${subCollection}`,
-            onSuccess: (data) => {
-              // console.debug(`[DEBUG] - data.result => ${JSON.stringify(data.result)}`);
-              let newSubCollection = (<SubCollectionContainer
-                key={uuid()}
-                data={data.result}
-              />)
-
-              if (subCollections) {
-                for (const col of subCollections) {
-                  if (!(col.props.data.id === data.result.id)) {
-                    setSubCollections(subCollections ? [...subCollections, newSubCollection] : [newSubCollection]);
-                  }
-                }
-              } else {
-                setSubCollections(subCollections ? [...subCollections, newSubCollection] : [newSubCollection]);
-              }
-            },
-            onFailure: (err) => {
-              console.error(`[ERROR] - ${err?.message}`);
-            }
-          });
-        }
+    if (pageState.collection) {
+      for (const subCollectionId of pageState.collection.subCollections) {
+        LazyFetch({
+          type: `get`,
+          endpoint: `/api/subcollection/${subCollectionId}`,
+          onSuccess: (data) => {
+            let newSubCollection = (<SubCollectionContainer
+              key={uuid()}
+              data={data.result}
+            />)
+            dispatch({
+              type: DispatchAction.SubCollections,
+              payload: pageState.subCollections ? ([newSubCollection]) : ([...pageState.subCollections, newSubCollection])
+            });
+          },
+          onFailure: (err) => {
+            console.error(`[ERROR] - `);
+          },
+        })
       }
     }
-  }
+  }, [pageState.collection]);
 
-  return subCollections ? (
+  return (
     <>
       <Navbar />
       <Wrapper>
-        <h1>{collections.find(collection => collection._id == id).name}</h1>
-        {subCollections ? (subCollections) : (<ThreeDots fill={`var\(--highlight-04\)`} />)}
-        {/* <SubCollectionContainer 
-          data={
-            {
-              name: "Alpha", 
-              amount: 4,
-              subCollections: ["sub0", "sub1", "sub2", "sub3"]
-            }
-          }
-        /> */}
+        <h1>{pageState.collection ? pageState.collection.name : <></>}</h1>
+        {/* {pageState.subCollections.length > 0 ? (pageState.subCollections) : (<ThreeDots fill={`var\(--highlight-04\)`} />)} */}
+        {pageState.subCollections.length > 0 ? (pageState.subCollections) : <></>}
       </Wrapper>
       <Footer />
     </>
-  ) : (<Loading />);
+  );
 };
 
 export default Collection;
