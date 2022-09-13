@@ -52,7 +52,7 @@ const SubCollection = (props) => {
 
   useEffect(() => {
     if (pageState.subCollection) {
-      console.debug(`[DEBUG] - REDUCER TEST UPDATED ${JSON.stringify(pageState, null, 4)}`);
+      // console.debug(`[DEBUG] - REDUCER TEST UPDATED ${JSON.stringify(pageState, null, 4)}`);
       for (const categoryId of pageState.subCollection.categories) {
         LazyFetch({
           type: `get`,
