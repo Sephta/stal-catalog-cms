@@ -1,8 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import LazyFetch from "../requests/LazyFetch";
 import { useInterval } from "../../../hooks";
-
 
 const CollectionContext = createContext(undefined);
 const CollectionDispatchContext = createContext(undefined);
@@ -20,8 +19,8 @@ const CollectionProvider = ({ children }) => {
     if (!CollectionDetails) {
       // console.debug(`[DEBUG] - wowwie, no collections`);
       LazyFetch({
-        type: 'get',
-        endpoint: '/api/collection',
+        type: "get",
+        endpoint: "/api/collection",
         onSuccess: (data) => {
           // console.debug(`[DEBUG] - ${data.message}`);
           // data.result.forEach(item => {
@@ -31,8 +30,8 @@ const CollectionProvider = ({ children }) => {
         },
         onFailure: (err) => {
           console.error(`[ERROR] - ${err?.message}`);
-        }
-      })
+        },
+      });
     }
   }, 1000);
 
@@ -43,10 +42,10 @@ const CollectionProvider = ({ children }) => {
       </CollectionDispatchContext.Provider>
     </CollectionContext.Provider>
   );
-}
+};
 
 CollectionProvider.propTypes = {
   children: PropTypes.node,
-}
+};
 
 export { CollectionProvider, CollectionContext, CollectionDispatchContext };

@@ -1,12 +1,15 @@
-import React, { useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { Container } from '../styles/common/Container.styled';
-import { StyledNavbar } from '../styles/navbar/Navbar.styled';
-import NavItem from './NavItem';
-import UserNavbarManager from './UserNavbarManager';
-import { ThreeDots } from 'react-loading-icons';
-import { CollectionContext, CollectionDispatchContext } from '../common/providers';
+import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { Container } from "../styles/common/Container.styled";
+import { StyledNavbar } from "../styles/navbar/Navbar.styled";
+import NavItem from "./NavItem";
+import UserNavbarManager from "./UserNavbarManager";
+import { ThreeDots } from "react-loading-icons";
+import {
+  CollectionContext,
+  CollectionDispatchContext,
+} from "../common/providers";
 
 const Navbar = (props) => {
   const collections = useContext(CollectionContext);
@@ -16,21 +19,27 @@ const Navbar = (props) => {
     let collectionComponents = [];
 
     let key = 0;
-    collections.forEach(collection => {
-      collectionComponents.push((<NavItem key={key} data={collection} />));
+    collections.forEach((collection) => {
+      collectionComponents.push(<NavItem key={key} data={collection} />);
       key++;
     });
 
-    return collectionComponents.length >= 0 ? (collectionComponents) : (<></>);
+    return collectionComponents.length >= 0 ? collectionComponents : <></>;
   };
 
   return (
     <>
       <Container>
         <StyledNavbar>
-        <Title><Link to={`/`}>Website Title</Link></Title>
+          <Title>
+            <Link to={`/`}>Website Title</Link>
+          </Title>
           <CollectionWrapper>
-            {collections ? (generateNavItems(collections)) : (<ThreeDots fill={`var\(--highlight-04\)`} />)}
+            {collections ? (
+              generateNavItems(collections)
+            ) : (
+              <ThreeDots fill={`var\(--highlight-04\)`} />
+            )}
           </CollectionWrapper>
           <UserNavbarManager setCollections={setCollections} />
         </StyledNavbar>
@@ -61,7 +70,7 @@ const Title = styled.h1`
   }
 `;
 
-const CollectionWrapper  = styled.div`
+const CollectionWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;

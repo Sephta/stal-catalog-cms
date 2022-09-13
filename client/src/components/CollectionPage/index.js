@@ -1,5 +1,3 @@
 import SubCollectionContainer from "./SubCollectionContainer";
 
-export {
-  SubCollectionContainer,
-};
+export { SubCollectionContainer };

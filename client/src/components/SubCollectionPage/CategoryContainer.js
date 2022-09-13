@@ -1,21 +1,21 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import CategoryItem from './CategoryItem';
-import  {v4 as uuid} from 'uuid';
+import React from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import CategoryItem from "./CategoryItem";
+import { v4 as uuid } from "uuid";
 
-const CategoryContainer = ({ data, ...props}) => {
-
-  const generateItems = (data) => data.subCategories.map((subCategoryId) => (<CategoryItem key={uuid()} data={{name: subCategoryId}} />));
+const CategoryContainer = ({ data, ...props }) => {
+  const generateItems = (data) =>
+    data.subCategories.map((subCategoryId) => (
+      <CategoryItem key={uuid()} data={{ name: subCategoryId }} />
+    ));
 
   return (
     <>
       <Wrapper>
         <Link to={`/category/${data.id}`}>{data.name}</Link>
-        <ContentWrapper>
-          { generateItems(data) }
-        </ContentWrapper>
+        <ContentWrapper>{generateItems(data)}</ContentWrapper>
       </Wrapper>
     </>
   );
@@ -64,7 +64,7 @@ const ContentWrapper = styled.div`
   height: auto;
   margin: 1em 0;
   padding: 1em;
-  
+
   background-color: var(--highlight-02);
   border-radius: 0 0 1em 1em;
 

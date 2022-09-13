@@ -1,16 +1,16 @@
 import React, { createContext, useState, useEffect } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import LazyFetch from "../requests/LazyFetch";
 import { useInterval } from "../../../hooks";
 import { useReducer } from "react";
 
 const SessionDispatchContextAction = {
-  Collection: 'collection',
-  SubCollection: 'subcollection',
-  Category: 'category',
-  SubCategory: 'subcategory',
-  Item: 'item',
-}
+  Collection: "collection",
+  SubCollection: "subcollection",
+  Category: "category",
+  SubCategory: "subcategory",
+  Item: "item",
+};
 
 const reducer = (state, action) => {
   const { type, payload } = action;
@@ -29,11 +29,10 @@ const reducer = (state, action) => {
     default:
       break;
   }
-}
-
+};
 
 const SessionContext = createContext(undefined);
-const SessionDispatchContext= createContext(undefined);
+const SessionDispatchContext = createContext(undefined);
 
 /** CollectionProvider
  * Creates a Collection data DOM to get information about the Collection.
@@ -64,10 +63,15 @@ const SessionProvider = ({ children }) => {
       </SessionDispatchContext.Provider>
     </SessionContext.Provider>
   );
-}
+};
 
 SessionProvider.propTypes = {
   children: PropTypes.node,
-}
+};
 
-export { SessionProvider, SessionContext, SessionDispatchContext, SessionDispatchContextAction };
+export {
+  SessionProvider,
+  SessionContext,
+  SessionDispatchContext,
+  SessionDispatchContextAction,
+};

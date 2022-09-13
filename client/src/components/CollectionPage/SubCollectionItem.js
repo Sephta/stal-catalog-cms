@@ -1,15 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
-const SubCollectionItem = ({data, ...props}) => {
+const SubCollectionItem = ({ data, ...props }) => {
   return (
     <>
       <Link to={`/category/${data.id}`}>
-        <Wrapper>
-
-        </Wrapper>
+        <Wrapper></Wrapper>
       </Link>
     </>
   );

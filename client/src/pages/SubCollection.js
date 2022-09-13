@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Navbar } from '../components/navbar';
-import { Footer } from '../components/footer';
-import { CategoryContainer } from '../components/SubCollectionPage';
-import { v4 as uuid } from 'uuid';
-import { useInterval } from '../hooks';
-import { LazyFetch } from '../components/common/requests';
-import Loading from '../components/common/Loading';
-import { useReducer } from 'react';
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useParams } from "react-router-dom";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { Navbar } from "../components/navbar";
+import { Footer } from "../components/footer";
+import { CategoryContainer } from "../components/SubCollectionPage";
+import { v4 as uuid } from "uuid";
+import { useInterval } from "../hooks";
+import { LazyFetch } from "../components/common/requests";
+import Loading from "../components/common/Loading";
+import { useReducer } from "react";
 
 const DispatchAction = {
-  SubCollection: 'subCollection',
-  Categories: 'categories',
-}
+  SubCollection: "subCollection",
+  Categories: "categories",
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -25,7 +25,7 @@ const reducer = (state, action) => {
     default:
       break;
   }
-}
+};
 
 const SubCollection = (props) => {
   const { id } = useParams();
@@ -41,12 +41,15 @@ const SubCollection = (props) => {
         type: `get`,
         endpoint: `/api/subcollection/${id}`,
         onSuccess: (data) => {
-          dispatch({type: DispatchAction.SubCollection, payload: data.result});
+          dispatch({
+            type: DispatchAction.SubCollection,
+            payload: data.result,
+          });
         },
         onFailure: (err) => {
           console.error(`[ERROR] - ${err}`);
         },
-      })
+      });
     }
   }, 1000);
 
@@ -58,15 +61,20 @@ const SubCollection = (props) => {
           type: `get`,
           endpoint: `/api/category/${categoryId}`,
           onSuccess: (data) => {
-            dispatch({ 
-              type: DispatchAction.Categories, 
-              payload: pageState.categories ? ([<CategoryContainer key={uuid()} data={data.result} />]) : [...pageState.categories, <CategoryContainer key={uuid()} data={data.result} />] 
-            })
+            dispatch({
+              type: DispatchAction.Categories,
+              payload: pageState.categories
+                ? [<CategoryContainer key={uuid()} data={data.result} />]
+                : [
+                    ...pageState.categories,
+                    <CategoryContainer key={uuid()} data={data.result} />,
+                  ],
+            });
           },
           onFailure: (err) => {
             console.error(`[ERROR] - ${err}`);
           },
-        })
+        });
       }
     }
   }, [pageState.subCollection]);
@@ -75,8 +83,10 @@ const SubCollection = (props) => {
     <>
       <Navbar />
       <Wrapper>
-        <h1>{pageState.subCollection ? pageState.subCollection.name : <></>}</h1>
-        { pageState.categories }
+        <h1>
+          {pageState.subCollection ? pageState.subCollection.name : <></>}
+        </h1>
+        {pageState.categories}
       </Wrapper>
       <Footer />
     </>
@@ -85,7 +95,7 @@ const SubCollection = (props) => {
 
 export default SubCollection;
 
-SubCollection.propTypes = {}
+SubCollection.propTypes = {};
 
 const Wrapper = styled.div`
   height: 100%;

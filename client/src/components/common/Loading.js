@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import ThreeDots from 'react-loading-icons/dist/esm/components/three-dots';
+import React from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import ThreeDots from "react-loading-icons/dist/esm/components/three-dots";
 
 const Loading = (props) => {
   return (
@@ -15,7 +15,7 @@ const Loading = (props) => {
 
 export default Loading;
 
-Loading.propTypes = {}
+Loading.propTypes = {};
 
 const Wrapper = styled.div`
   width: 100vw;

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import SubCategoryItemBlock from './SubCategoryItemBlock';
-import { useEffect } from 'react';
-import { LazyFetch } from '../common/requests';
-import { v4 as uuid } from 'uuid';
+import React, { useState } from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import SubCategoryItemBlock from "./SubCategoryItemBlock";
+import { useEffect } from "react";
+import { LazyFetch } from "../common/requests";
+import { v4 as uuid } from "uuid";
 
-const SubCategoryInfoBlock = ({data, ...props}) => {
+const SubCategoryInfoBlock = ({ data, ...props }) => {
   const [items, setItems] = useState(null);
 
   useEffect(() => {
@@ -17,21 +17,20 @@ const SubCategoryInfoBlock = ({data, ...props}) => {
       data: { ids: data.items },
       onSuccess: (data) => {
         // console.debug(`[DEBUG] - ${JSON.stringify(data.result, null, 4)}`);
-        let newItems = []
+        let newItems = [];
         for (const item of data.result) {
-          let newSubCategoryItemBlock = (<SubCategoryItemBlock 
-            key={uuid()} 
-            data={item}
-          />);
+          let newSubCategoryItemBlock = (
+            <SubCategoryItemBlock key={uuid()} data={item} />
+          );
 
-          newItems.push(newSubCategoryItemBlock)
+          newItems.push(newSubCategoryItemBlock);
         }
         setItems(newItems);
       },
       onFailure: (err) => {
         console.error(`[ERROR] - ${err}`);
       },
-    })
+    });
   }, []);
 
   return (
@@ -42,13 +41,9 @@ const SubCategoryInfoBlock = ({data, ...props}) => {
         </Title>
         <ContentWrapper>
           <Link to={`/`}>{data.subTitle}</Link>
-          <ContentBlerb>
-            {data.content}
-          </ContentBlerb>
+          <ContentBlerb>{data.content}</ContentBlerb>
         </ContentWrapper>
-        <ItemWrapper>
-          { items }
-        </ItemWrapper>
+        <ItemWrapper>{items}</ItemWrapper>
       </Wrapper>
     </>
   );
@@ -58,7 +53,7 @@ export default SubCategoryInfoBlock;
 
 SubCategoryInfoBlock.propTypes = {
   data: PropTypes.object,
-}
+};
 
 const Wrapper = styled.div`
   height: auto;
@@ -106,7 +101,7 @@ const ContentWrapper = styled.div`
 
   display: flex;
   flex-direction: column;
-  
+
   // Sub-Title
   > a {
     color: var(--off-black);

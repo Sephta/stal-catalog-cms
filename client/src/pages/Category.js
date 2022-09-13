@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Navbar } from '../components/navbar';
-import { Footer } from '../components/footer';
-import { SubCategoryInfoBlock } from '../components/CategoryPage';
-import Loading from '../components/common/Loading';
-import { useInterval } from '../hooks';
-import { LazyFetch } from '../components/common/requests';
-import { v4 as uuid } from 'uuid';
-import ThreeDots from 'react-loading-icons/dist/esm/components/three-dots';
+import React, { useState, useEffect, useReducer } from "react";
+import { Link, useParams } from "react-router-dom";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { Navbar } from "../components/navbar";
+import { Footer } from "../components/footer";
+import { SubCategoryInfoBlock } from "../components/CategoryPage";
+import Loading from "../components/common/Loading";
+import { useInterval } from "../hooks";
+import { LazyFetch } from "../components/common/requests";
+import { v4 as uuid } from "uuid";
+import ThreeDots from "react-loading-icons/dist/esm/components/three-dots";
 
 const DispatchAction = {
-  Category: 'category',
-  SubCategories: 'subcategories',
-}
+  Category: "category",
+  SubCategories: "subcategories",
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -25,7 +25,7 @@ const reducer = (state, action) => {
     default:
       break;
   }
-}
+};
 
 const Category = (props) => {
   const { id } = useParams();
@@ -47,7 +47,7 @@ const Category = (props) => {
         onFailure: (err) => {
           console.error(`[ERROR] - ${err}`);
         },
-      })
+      });
     }
   }, 1000);
 
@@ -58,19 +58,21 @@ const Category = (props) => {
         endpoint: `/api/subcategory/multi`,
         data: { ids: pageState.category.subCategories },
         onSuccess: (data) => {
-          let newPayload = []
+          let newPayload = [];
           for (const subCat of data.result) {
             // console.debug(`[DEBUG] - data ${JSON.stringify(subCat, null, 4)}`);
-            let newSubCategoryInfoBlock = <SubCategoryInfoBlock key={uuid()} data={subCat} />;
-            newPayload = [...new Set([...newPayload, newSubCategoryInfoBlock])]
+            let newSubCategoryInfoBlock = (
+              <SubCategoryInfoBlock key={uuid()} data={subCat} />
+            );
+            newPayload = [...new Set([...newPayload, newSubCategoryInfoBlock])];
           }
-          
+
           dispatch({ type: DispatchAction.SubCategories, payload: newPayload });
         },
         onFailure: (err) => {
           console.error(`[ERROR] - ${err}`);
         },
-      })
+      });
     }
   }, [pageState.category]);
 
@@ -81,7 +83,7 @@ const Category = (props) => {
         <h1>{pageState.category ? pageState.category.name : <></>}</h1>
         <ContentWrapper>
           {/* { pageState.subCategories.length > 0 ? pageState.subCategories : <ThreeDots fill={`var\(--highlight-04\)`} /> } */}
-          { pageState.subCategories.length > 0 ? pageState.subCategories : <></> }
+          {pageState.subCategories.length > 0 ? pageState.subCategories : <></>}
         </ContentWrapper>
       </Wrapper>
       <Footer />
@@ -91,7 +93,7 @@ const Category = (props) => {
 
 export default Category;
 
-Category.propTypes = {}
+Category.propTypes = {};
 
 const Wrapper = styled.div`
   height: 100%;

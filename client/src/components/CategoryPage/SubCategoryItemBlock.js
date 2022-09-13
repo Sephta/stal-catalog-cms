@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
-const SubCategoryItemBlock = ({data, ...props}) => {
+const SubCategoryItemBlock = ({ data, ...props }) => {
   const [hover, setHover] = useState(false);
 
   return (
     <>
       <Link to={`/item/${data._id}`}>
-        <Wrapper 
-          onMouseEnter={(event) => {setHover(true)}}
-          onMouseLeave={(event) => {setHover(false)}}
+        <Wrapper
+          onMouseEnter={(event) => {
+            setHover(true);
+          }}
+          onMouseLeave={(event) => {
+            setHover(false);
+          }}
           img={data.img}
         >
-          {hover ? (<Tooltip />) : (<></>)}
+          {hover ? <Tooltip /> : <></>}
         </Wrapper>
       </Link>
     </>
@@ -26,7 +30,7 @@ export default SubCategoryItemBlock;
 
 SubCategoryItemBlock.propTypes = {
   data: PropTypes.object,
-}
+};
 
 const Wrapper = styled.div`
   width: 5em;
@@ -36,7 +40,7 @@ const Wrapper = styled.div`
 
   background-color: var(--contrast-01);
   border-radius: 2em;
-  background-image: ${({img}) => css`url(${img})`};
+  background-image: ${({ img }) => css`url(${img})`};
 
   :hover {
     cursor: pointer;
@@ -48,7 +52,7 @@ const Wrapper = styled.div`
 const Tooltip = styled.div`
   width: 1em;
   height: 1em;
-  
+
   background-color: var(--highlight-02);
   border-radius: 1em;
 `;

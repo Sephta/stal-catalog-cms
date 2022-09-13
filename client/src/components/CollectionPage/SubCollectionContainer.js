@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import SubCollectionItem from './SubCollectionItem';
-import { Link } from 'react-router-dom';
-import { CollectionContext } from '../common/providers';
-import { LazyFetch } from '../common/requests';
-import ThreeDots from 'react-loading-icons/dist/esm/components/three-dots';
-import { v4 as uuid } from 'uuid';
+import React, { useState, useEffect, useContext } from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import SubCollectionItem from "./SubCollectionItem";
+import { Link } from "react-router-dom";
+import { CollectionContext } from "../common/providers";
+import { LazyFetch } from "../common/requests";
+import ThreeDots from "react-loading-icons/dist/esm/components/three-dots";
+import { v4 as uuid } from "uuid";
 
-const SubCollectionContainer = ({data, ...props}) => {
+const SubCollectionContainer = ({ data, ...props }) => {
   const collections = useContext(CollectionContext);
   const [categories, setCategories] = useState(null);
 
@@ -21,22 +21,25 @@ const SubCollectionContainer = ({data, ...props}) => {
   const asyncFetchCategories = async () => {
     for (const categoryId of data.categories) {
       await LazyFetch({
-        type: 'get',
+        type: "get",
         endpoint: `/api/category/${categoryId}`,
         onSuccess: (data) => {
-          let newCategory = (<SubCollectionItem 
-            key={uuid()} 
-            data={data.result} 
-          />)
+          let newCategory = (
+            <SubCollectionItem key={uuid()} data={data.result} />
+          );
 
           if (categories) {
             for (const cat of categories) {
               if (!(cat.props.data.id === data.result.id)) {
-                setCategories(categories ? [...categories, newCategory] : [newCategory]);
+                setCategories(
+                  categories ? [...categories, newCategory] : [newCategory]
+                );
               }
             }
           } else {
-            setCategories(categories ? [...categories, newCategory] : [newCategory]);
+            setCategories(
+              categories ? [...categories, newCategory] : [newCategory]
+            );
           }
         },
         onFailure: (err) => {
@@ -46,13 +49,11 @@ const SubCollectionContainer = ({data, ...props}) => {
     }
   };
 
-  return(
+  return (
     <>
       <Wrapper>
         <Link to={`/subcollection/${data.id}`}>{data.name}</Link>
-        <ContentWrapper>
-          { categories }
-        </ContentWrapper>
+        <ContentWrapper>{categories}</ContentWrapper>
       </Wrapper>
     </>
   );
@@ -101,7 +102,7 @@ const ContentWrapper = styled.div`
   height: auto;
   margin: 1em 0;
   padding: 1em;
-  
+
   background-color: var(--highlight-02);
   border-radius: 0 0 1em 1em;
 

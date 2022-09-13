@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 
 const Item = (props) => {
   const { id } = useParams();
@@ -17,6 +17,6 @@ const Item = (props) => {
 
 export default Item;
 
-Item.propTypes = {}
+Item.propTypes = {};
 
 const Wrapper = styled.div``;

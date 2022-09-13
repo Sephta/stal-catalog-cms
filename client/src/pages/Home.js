@@ -1,12 +1,12 @@
-import React, {useContext, useEffect} from 'react';
-import styled from 'styled-components';
-import { 
-  UserContext, 
-  UserDispatchContext, 
-  CollectionContext 
-} from '../components/common/providers';
-import { Footer } from '../components/footer';
-import { Navbar } from '../components/navbar';
+import React, { useContext, useEffect } from "react";
+import styled from "styled-components";
+import {
+  UserContext,
+  UserDispatchContext,
+  CollectionContext,
+} from "../components/common/providers";
+import { Footer } from "../components/footer";
+import { Navbar } from "../components/navbar";
 
 const Home = (props) => {
   const user = useContext(UserContext);

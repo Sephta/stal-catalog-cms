@@ -1,17 +1,17 @@
-import React, {useContext, useEffect} from 'react';
-import PropTypes from 'prop-types';
-import styled, {css} from 'styled-components';
-import { Link } from 'react-router-dom';
-import { UserContext, UserDispatchContext } from '../common/providers';
+import React, { useContext, useEffect } from "react";
+import PropTypes from "prop-types";
+import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
+import { UserContext, UserDispatchContext } from "../common/providers";
 
-const UserNavbarManager = ({setCollections, ...props}) => {
+const UserNavbarManager = ({ setCollections, ...props }) => {
   const user = useContext(UserContext);
   const setUser = useContext(UserDispatchContext);
 
   const handleLogout = (event) => {
     setUser(null);
     localStorage.removeItem("user");
-  }
+  };
 
   useEffect(() => {
     if (!user) {
@@ -26,24 +26,28 @@ const UserNavbarManager = ({setCollections, ...props}) => {
   const generateUserArea = (user) => {
     let result = user ? (
       <UserArea>
-        <Link to={'/userprofile'}>
+        <Link to={"/userprofile"}>
           <UserIcon />
-          {user ? (<p>{user.username}</p>) : (<p>{`Name`}</p>)}
+          {user ? <p>{user.username}</p> : <p>{`Name`}</p>}
         </Link>
       </UserArea>
     ) : (
       <UserArea></UserArea>
     );
     return result;
-  }
+  };
 
   return (
     <>
       <Wrapper>
         {generateUserArea(user)}
         <LoginLogoutWrapper>
-          {user == null ? (<Link to={`/register`}>Register</Link>) : (<></>)}
-          {user == null ? (<Link to={`/login`}>Login</Link>) : (<button onClick={handleLogout}>Logout</button>)}
+          {user == null ? <Link to={`/register`}>Register</Link> : <></>}
+          {user == null ? (
+            <Link to={`/login`}>Login</Link>
+          ) : (
+            <button onClick={handleLogout}>Logout</button>
+          )}
         </LoginLogoutWrapper>
       </Wrapper>
     </>
@@ -54,7 +58,7 @@ export default UserNavbarManager;
 
 UserNavbarManager.propTypes = {
   setCollections: PropTypes.func,
-}
+};
 
 const Wrapper = styled.div`
   width: 20em;
@@ -135,4 +139,3 @@ const LoginLogoutWrapper = styled.div`
     }
   }
 `;
-

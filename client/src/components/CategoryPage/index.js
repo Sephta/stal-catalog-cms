@@ -1,5 +1,3 @@
 import SubCategoryInfoBlock from "./SubCategoryInfoBlock";
 
-export {
-  SubCategoryInfoBlock,
-};
+export { SubCategoryInfoBlock };

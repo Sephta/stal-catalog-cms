@@ -1,5 +1,3 @@
 import LazyFetch from "./LazyFetch";
 
-export {
-  LazyFetch,
-};
+export { LazyFetch };

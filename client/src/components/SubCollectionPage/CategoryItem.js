@@ -1,15 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
-const CategoryItem = ({data, ...props}) => {
+const CategoryItem = ({ data, ...props }) => {
   return (
     <>
       <Link to={`/subcategory/${data.name}`}>
-        <Wrapper>
-
-        </Wrapper>
+        <Wrapper></Wrapper>
       </Link>
     </>
   );
@@ -19,7 +17,7 @@ export default CategoryItem;
 
 CategoryItem.propTypes = {
   data: PropTypes.object,
-}
+};
 
 const Wrapper = styled.div`
   width: 5em;
@@ -36,4 +34,3 @@ const Wrapper = styled.div`
     box-shadow: 0 0.25em 0.25em rgb(18, 18, 18, 0.15);
   }
 `;
-

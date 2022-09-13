@@ -1,10 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
-import { Container } from '../styles/common/Container.styled';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled, { css } from "styled-components";
+import PropTypes from "prop-types";
+import { Container } from "../styles/common/Container.styled";
 
-const NavItem = ({data, ...props}) => {
+const NavItem = ({ data, ...props }) => {
   return (
     <>
       <Wrapper debug>
@@ -18,7 +18,7 @@ export default NavItem;
 
 NavItem.propTypes = {
   data: PropTypes.object,
-}
+};
 
 const Wrapper = styled.div`
   width: 10em;
@@ -32,10 +32,11 @@ const Wrapper = styled.div`
 
   background-color: var(--highlight-03);
 
-  /* border: ${({debug}) => {debug ? css`1px solid red` : css``}}; */
+  /* border: ${({ debug }) => {
+    debug ? css`1px solid red` : css``;
+  }}; */
   /* border: 1px solid red; */
   border-radius: 0.25em;
-
 
   :hover {
     transform: translateY(-1px);
