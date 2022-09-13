@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import styled, {css} from 'styled-components';
 import { Link } from 'react-router-dom';
-import { UserContext, UserDispatchContext } from '../common/UserProvider';
+import { UserContext, UserDispatchContext } from '../common/providers';
 
 const UserNavbarManager = ({setCollections, ...props}) => {
   const user = useContext(UserContext);

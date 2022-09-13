@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import LazyFetch from "./requests/LazyFetch";
-import { useInterval } from "../../hooks";
+import LazyFetch from "../requests/LazyFetch";
+import { useInterval } from "../../../hooks";
+
 
 const CollectionContext = createContext(undefined);
 const CollectionDispatchContext = createContext(undefined);

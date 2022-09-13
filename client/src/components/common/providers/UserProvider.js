@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import LazyFetch from "./requests/LazyFetch";
+import LazyFetch from "../requests/LazyFetch";
 
 const UserContext = createContext(undefined);
 const UserDispatchContext = createContext(undefined);

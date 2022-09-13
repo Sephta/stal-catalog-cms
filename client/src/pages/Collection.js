@@ -8,7 +8,7 @@ import { Navbar } from '../components/navbar';
 import { Footer } from '../components/footer';
 import { ThreeDots } from 'react-loading-icons';
 import { SubCollectionContainer } from '../components/CollectionPage';
-import { CollectionContext } from '../components/common/CollectionProvider';
+import { CollectionContext } from '../components/common/providers';
 import { v4 as uuid } from 'uuid';
 import Loading from '../components/common/Loading';
 

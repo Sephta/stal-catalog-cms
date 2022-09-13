@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContext } from 'react';
-import { UserContext } from '../components/common/UserProvider';
+import { UserContext } from '../components/common/providers';
 import { Link } from 'react-router-dom';
 import { Footer } from '../components/footer';
 

@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import { UserProvider } from "./components/common/UserProvider";
-import { CollectionProvider } from "./components/common/CollectionProvider";
+import { 
+  UserProvider, 
+  CollectionProvider,
+  // SessionProvider,
+} from "./components/common/providers";
 
 import { 
   Home,
@@ -22,6 +25,7 @@ const App = (props) => {
       <Router>
           <UserProvider>
           <CollectionProvider>
+          {/* <SessionProvider> */}
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<Login />} />
@@ -33,6 +37,7 @@ const App = (props) => {
               <Route path={`/subcategory/:id`} element={<SubCategory />} />
               <Route path={`/item/:id`} element={<Item />} />
             </Routes>
+          {/* </SessionProvider> */}
           </CollectionProvider>
           </UserProvider>
       </Router>

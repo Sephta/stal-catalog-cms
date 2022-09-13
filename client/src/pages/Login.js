@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect }  from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import LazyFetch from '../components/common/requests/LazyFetch';
-import { UserContext, UserDispatchContext } from '../components/common/UserProvider';
+import { UserContext, UserDispatchContext } from '../components/common/providers';
 import { Footer } from '../components/footer';
 import { Navbar } from '../components/navbar';
 

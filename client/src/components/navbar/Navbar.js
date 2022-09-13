@@ -6,7 +6,7 @@ import { StyledNavbar } from '../styles/navbar/Navbar.styled';
 import NavItem from './NavItem';
 import UserNavbarManager from './UserNavbarManager';
 import { ThreeDots } from 'react-loading-icons';
-import { CollectionContext, CollectionDispatchContext } from '../common/CollectionProvider';
+import { CollectionContext, CollectionDispatchContext } from '../common/providers';
 
 const Navbar = (props) => {
   const collections = useContext(CollectionContext);

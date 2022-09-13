@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import SubCollectionItem from './SubCollectionItem';
 import { Link } from 'react-router-dom';
-import { CollectionContext } from '../common/CollectionProvider';
+import { CollectionContext } from '../common/providers';
 import { LazyFetch } from '../common/requests';
 import ThreeDots from 'react-loading-icons/dist/esm/components/three-dots';
 import { v4 as uuid } from 'uuid';
