@@ -13,7 +13,8 @@ const generateJSONResponse = (message, result = null) => {
 }
 
 const debugEndpoint = (req, res, next) => {
-  console.debug(`[DEBUG] <ENDPOINT: \'${req.originalUrl}\'> | <TYPE: \'${req.method}\'>`);
+  let timestamp = new Date().toLocaleString();
+  console.debug(`[DEBUG] <TYPE: \'${req.method}\'> | <ENDPOINT: \'${req.originalUrl}\'> | <TIMESTAMP: '${timestamp}'>`);
   next();
 }
 
