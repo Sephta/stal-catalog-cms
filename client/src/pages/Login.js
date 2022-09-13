@@ -6,8 +6,7 @@ import {
   UserContext,
   UserDispatchContext,
 } from "../components/common/providers";
-import { Footer } from "../components/footer";
-import { Navbar } from "../components/navbar";
+import { Navbar, Footer } from "../components";
 
 const Login = (props) => {
   const user = useContext(UserContext);

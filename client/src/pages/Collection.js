@@ -1,48 +1,32 @@
-import React, { useEffect, useContext, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
-import { LazyFetch, AsyncFetch } from "../components/common/requests";
-import { useState } from "react";
-import { Navbar } from "../components/navbar";
-import { Footer } from "../components/footer";
-import { ThreeDots } from "react-loading-icons";
+import { LazyFetch } from "../components/common/requests";
+import { Navbar, Footer } from "../components";
 import { SubCollectionContainer } from "../components/CollectionPage";
-import { CollectionContext } from "../components/common/providers";
 import { v4 as uuid } from "uuid";
-import Loading from "../components/common/Loading";
-import { useInterval } from "../hooks";
-
-const DispatchAction = {
-  Collection: "collection",
-  SubCollections: "subcollections",
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case DispatchAction.Collection:
-      return { ...state, collection: action.payload };
-    case DispatchAction.SubCollections:
-      return { ...state, subCollections: action.payload };
-    default:
-      break;
-  }
-};
+import { useInterval, useCatalogReducer } from "../hooks";
+import { CatalogDispatchAction } from "../reducers";
 
 const Collection = (props) => {
   const { id } = useParams();
-  const [pageState, dispatch] = useReducer(reducer, {
-    collection: null,
-    subCollections: [],
+
+  const [pageState, dispatch] = useCatalogReducer({
+    Collection: null,
+    SubCollection: [],
   });
 
   useInterval(() => {
-    if (!pageState.collection) {
+    if (!pageState.Collection) {
       LazyFetch({
         type: `get`,
         endpoint: `/api/collection/${id}`,
         onSuccess: (data) => {
-          dispatch({ type: DispatchAction.Collection, payload: data.result });
+          dispatch({
+            type: CatalogDispatchAction.Collection,
+            payload: data.result,
+          });
         },
         onFailure: (err) => {
           console.error(`[ERROR] - ${err}`);
@@ -52,8 +36,8 @@ const Collection = (props) => {
   }, 1000);
 
   useEffect(() => {
-    if (pageState.collection) {
-      for (const subCollectionId of pageState.collection.subCollections) {
+    if (pageState.Collection) {
+      for (const subCollectionId of pageState.Collection.subCollections) {
         LazyFetch({
           type: `get`,
           endpoint: `/api/subcollection/${subCollectionId}`,
@@ -62,10 +46,10 @@ const Collection = (props) => {
               <SubCollectionContainer key={uuid()} data={data.result} />
             );
             dispatch({
-              type: DispatchAction.SubCollections,
-              payload: pageState.subCollections
+              type: CatalogDispatchAction.SubCollection,
+              payload: pageState.SubCollection
                 ? [newSubCollection]
-                : [...pageState.subCollections, newSubCollection],
+                : [...pageState.SubCollection, newSubCollection],
             });
           },
           onFailure: (err) => {
@@ -74,15 +58,15 @@ const Collection = (props) => {
         });
       }
     }
-  }, [pageState.collection]);
+  }, [pageState.Collection]);
 
   return (
     <>
       <Navbar />
       <Wrapper>
-        <h1>{pageState.collection ? pageState.collection.name : <></>}</h1>
-        {/* {pageState.subCollections.length > 0 ? (pageState.subCollections) : (<ThreeDots fill={`var\(--highlight-04\)`} />)} */}
-        {pageState.subCollections.length > 0 ? pageState.subCollections : <></>}
+        <h1>{pageState.Collection ? pageState.Collection.name : <></>}</h1>
+        {/* {pageState.SubCollection.length > 0 ? (pageState.SubCollection) : (<ThreeDots fill={`var\(--highlight-04\)`} />)} */}
+        {pageState.SubCollection.length > 0 ? pageState.SubCollection : <></>}
       </Wrapper>
       <Footer />
     </>

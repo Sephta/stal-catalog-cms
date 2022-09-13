@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import LazyFetch from "../components/common/requests/LazyFetch";
-import { Footer } from "../components/footer";
-import { Navbar } from "../components/navbar";
+import { Navbar, Footer } from "../components";
 
 const Register = (props) => {
   const navigate = useNavigate();

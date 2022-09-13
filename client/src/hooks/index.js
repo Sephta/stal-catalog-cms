@@ -1,3 +1,4 @@
 import { useInterval } from "./useInterval";
+import { useCatalogReducer } from "./useCatalogReducer";
 
-export { useInterval };
+export { useInterval, useCatalogReducer };

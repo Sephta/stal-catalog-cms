@@ -1,48 +1,30 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { Navbar } from "../components/navbar";
-import { Footer } from "../components/footer";
+import { Navbar, Footer } from "../components";
 import { CategoryContainer } from "../components/SubCollectionPage";
 import { v4 as uuid } from "uuid";
-import { useInterval } from "../hooks";
+import { useInterval, useCatalogReducer } from "../hooks";
+import { CatalogDispatchAction } from "../reducers";
 import { LazyFetch } from "../components/common/requests";
-import Loading from "../components/common/Loading";
-import { useReducer } from "react";
-
-const DispatchAction = {
-  SubCollection: "subCollection",
-  Categories: "categories",
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case DispatchAction.SubCollection:
-      return { ...state, subCollection: action.payload };
-    case DispatchAction.Categories:
-      return { ...state, categories: action.payload };
-    default:
-      break;
-  }
-};
 
 const SubCollection = (props) => {
   const { id } = useParams();
 
-  const [pageState, dispatch] = useReducer(reducer, {
-    subCollection: null,
-    categories: [],
+  const [pageState, dispatch] = useCatalogReducer({
+    SubCollection: null,
+    Category: [],
   });
 
   useInterval(() => {
-    if (!pageState.subCollection) {
+    if (!pageState.SubCollection) {
       LazyFetch({
         type: `get`,
         endpoint: `/api/subcollection/${id}`,
         onSuccess: (data) => {
           dispatch({
-            type: DispatchAction.SubCollection,
+            type: CatalogDispatchAction.SubCollection,
             payload: data.result,
           });
         },
@@ -54,19 +36,19 @@ const SubCollection = (props) => {
   }, 1000);
 
   useEffect(() => {
-    if (pageState.subCollection) {
+    if (pageState.SubCollection) {
       // console.debug(`[DEBUG] - REDUCER TEST UPDATED ${JSON.stringify(pageState, null, 4)}`);
-      for (const categoryId of pageState.subCollection.categories) {
+      for (const categoryId of pageState.SubCollection.categories) {
         LazyFetch({
           type: `get`,
           endpoint: `/api/category/${categoryId}`,
           onSuccess: (data) => {
             dispatch({
-              type: DispatchAction.Categories,
-              payload: pageState.categories
+              type: CatalogDispatchAction.Category,
+              payload: pageState.Category
                 ? [<CategoryContainer key={uuid()} data={data.result} />]
                 : [
-                    ...pageState.categories,
+                    ...pageState.Category,
                     <CategoryContainer key={uuid()} data={data.result} />,
                   ],
             });
@@ -77,16 +59,16 @@ const SubCollection = (props) => {
         });
       }
     }
-  }, [pageState.subCollection]);
+  }, [pageState.SubCollection]);
 
   return (
     <>
       <Navbar />
       <Wrapper>
         <h1>
-          {pageState.subCollection ? pageState.subCollection.name : <></>}
+          {pageState.SubCollection ? pageState.SubCollection.name : <></>}
         </h1>
-        {pageState.categories}
+        {pageState.Category}
       </Wrapper>
       <Footer />
     </>
