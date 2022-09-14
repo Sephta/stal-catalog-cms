@@ -105,5 +105,5 @@ dist
 
 # Custom
 env.sh
-run-client.sh.
+run-client.sh
 run-server.sh
