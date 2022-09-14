@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   UserProvider,
   CollectionProvider,
-  // SessionProvider,
 } from "./components/common/providers";
+import PrivateRoute from "./components/common/PrivateRoute";
 
 import {
   Home,
@@ -25,19 +25,27 @@ const App = (props) => {
       <Router>
         <UserProvider>
           <CollectionProvider>
-            {/* <SessionProvider> */}
             <Routes>
+              {/** PUBLIC ROUTES */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path={`/userprofile`} element={<UserProfile />} />
               <Route path={`/collection/:id`} element={<Collection />} />
               <Route path={`/subcollection/:id`} element={<SubCollection />} />
               <Route path={`/category/:id`} element={<Category />} />
               <Route path={`/subcategory/:id`} element={<SubCategory />} />
               <Route path={`/item/:id`} element={<Item />} />
+
+              {/** PRIVATE ROUTES */}
+              <Route
+                path={`/userprofile`}
+                element={
+                  <PrivateRoute>
+                    <UserProfile />
+                  </PrivateRoute>
+                }
+              />
             </Routes>
-            {/* </SessionProvider> */}
           </CollectionProvider>
         </UserProvider>
       </Router>

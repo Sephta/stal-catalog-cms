@@ -33,6 +33,8 @@ const Item = (props) => {
     <>
       <Wrapper>
         <h1>{pageState.Item ? pageState.Item.name : <></>}</h1>
+        <br />
+        <img src={`${pageState.Item ? pageState.Item.img : ""}`} alt="" />
       </Wrapper>
     </>
   );
